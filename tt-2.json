@@ -1,0 +1,49 @@
+==================================================================== 
+messages.upsert {
+    "messages": [
+        {
+            "key": {
+                "remoteJid": "237676073559@s.whatsapp.net",
+                "fromMe": false,
+                "id": "B7840019883A06ED9E182F105BEE8C2B"
+            },
+            "messageTimestamp": 1725222704,
+            "pushName": "Saint Cameroun",
+            "broadcast": false,
+            "message": {
+                "imageMessage": {
+                    "url": "https://mmg.whatsapp.net/o1/v/t62.7118-24/f1/m237/up-oil-image-171252a3-c35d-42a4-996d-aea47a20c853?ccb=9-4&oh=01_Q5AaIHkU6MNpyxzGJzaAidFV5gRI0kMMXvmrEVbf4VDcNzgp&oe=66FC3599&_nc_sid=000000&mms3=true",
+                    "mimetype": "image/jpeg",
+                    "caption": "J'en ai la chair de poule",
+                    "fileSha256": "Iinv7gGWWAzq/1eo40NPg+rHIpDDRdI6Frst9pod5G4=",
+                    "fileLength": "4287",
+                    "height": 168,
+                    "width": 214,
+                    "mediaKey": "hStyYKFY1SDGsWhEgtkN6NSiSfwmZI5Gi/bkX3uagAI=",
+                    "fileEncSha256": "RTufQEVZF22IhndftaV++qQ/F8PXv8GGZsx+JF612Uk=",
+                    "directPath": "/o1/v/t62.7118-24/f1/m237/up-oil-image-171252a3-c35d-42a4-996d-aea47a20c853?ccb=9-4&oh=01_Q5AaIHkU6MNpyxzGJzaAidFV5gRI0kMMXvmrEVbf4VDcNzgp&oe=66FC3599&_nc_sid=000000",
+                    "mediaKeyTimestamp": "1725222702",
+                    "jpegThumbnail": "/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEABsbGxscGx4hIR4qLSgtKj04MzM4PV1CR0JHQl2NWGdYWGdYjX2Xe3N7l33gsJycsOD/2c7Z//////////////8BGxsbGxwbHiEhHiotKC0qPTgzMzg9XUJHQkdCXY1YZ1hYZ1iNfZd7c3uXfeCwnJyw4P/Zztn////////////////CABEIADgASAMBIgACEQEDEQH/xAAvAAACAwEBAAAAAAAAAAAAAAAAAgEDBAUGAQEBAQEAAAAAAAAAAAAAAAAAAQID/9oADAMBAAIQAxAAAADh1smUK8W1jtZUTIowdhfQLN8W7qJLy56KGI2KZDQFSZI5ddS5oL1pguikLCsJAkiAACoAAA//xAAnEAACAQIEBQUBAAAAAAAAAAAAAQIREgMEFCEQExUiUQUgMEFhMf/aAAgBAQABPwBj4P3MaYotjhLfYUG3QWG2mUZbvQtdRYEWlsaaVX2jyrSg4xY8o7G1Hdmhk1Hso0PIzadInT5NrtJ+nNp0R010LsJfyKHjQ+oo1BqKjzDX2an9Hmv0eZfkebfkeM/JzWPEfk5jOaxzLy8uHIuLi4qVK8alfg//xAAZEQADAQEBAAAAAAAAAAAAAAAAARESIDD/2gAIAQIBAT8A5qKjRpGkUvj/AP/EABcRAQEBAQAAAAAAAAAAAAAAABIAIDD/2gAIAQMBAT8AyIRhDn//2Q==",
+                    "scansSidecar": "qkdP0jOUgVm99Kpb46TirvAVrIwkvBDUMmDGRVhiBeO5YREInbdqDQ==",
+                    "scanLengths": [
+                        611,
+                        1745,
+                        849,
+                        1082
+                    ],
+                    "midQualityFileSha256": "5lAA5uokbKUq7vHTiQAOi7Twd0PixK2WJ5q4ZQ/ygFA="
+                },
+                "messageContextInfo": {
+                    "deviceListMetadata": {
+                        "senderKeyHash": "eUGs87iETho05w==",
+                        "senderTimestamp": "1724670502",
+                        "recipientKeyHash": "RZmedoIcf3nZaA==",
+                        "recipientTimestamp": "1725017889"
+                    },
+                    "deviceListMetadataVersion": 2
+                }
+            },
+            "status": 4
+        }
+    ]
+        

@@ -1,0 +1,36 @@
+Aller à l'école 
+Chercher un emploie
+faire un truc stupide
+Déménager
+
+acheter des trucs
+
+Draguer quelqu'un
+voler quelqu'un
+tuer quelqu'un
+enquêter sur quelqu'un
+
+#chef de gang
+Renforcer son gang (acheter des hommes, acheter des business, corrompre le gouvernement)
+Attaquer un gang
+Espionner un gang
+
+#Policier
+Investiguer (sur un crime, sur quequ'un)
+Combattre un gang
+mettre en prison
+tuer quelqu'un
+
+escroc
+arnaquer quelqu'un
+
+sorcier
+Envouter quelqu'un (qu'il tombe amoureux, qu'il tue une autre personne)
+
+Vempire
+Tuer quelqu'un
+transformer quelqu'un (et devoiler son identité)
+Controller quelqu'un
+
+prostituer
+coucher avec quelqu'un (et le voler, et dévoiler votre relation)

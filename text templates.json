@@ -1,0 +1,423 @@
+
+    =========================== WHEN SENDING A MESSAGE TO BOT =========================================
+    messages.upsert {
+    "messages": [
+        {
+            "key": {
+                "remoteJid": "237676073559@s.whatsapp.net",
+                "fromMe": false,
+                "id": "2F997F777D306CA9EB3CB93CB5E987A2"
+            },
+            "messageTimestamp": 1725025680,
+            "pushName": "Saint Cameroun",
+            "broadcast": false,
+            "message": {
+                "conversation": "Yo",
+                "messageContextInfo": {
+                    "deviceListMetadata": {
+                        "senderKeyHash": "eUGs87iETho05w==",
+                        "senderTimestamp": "1724670502",
+                        "recipientKeyHash": "RZmedoIcf3nZaA==",
+                        "recipientTimestamp": "1725017889"
+                    },
+                    "deviceListMetadataVersion": 2
+                }
+            },
+            "verifiedBizName": "Saint Cameroun"
+        }
+    ],
+    "type": "notify"
+}
+
+    =========================== When creating a group with bot =========================================
+    groups.upsert[
+    {
+        "id": "120363315870322427@g.us",
+        "subject": "Sims Yaoundé",
+        "subjectOwner": "237676073559@s.whatsapp.net",
+        "subjectTime": 1725025819,
+        "size": 2,
+        "creation": 1725025819,
+        "owner": "237676073559@s.whatsapp.net",
+        "restrict": false,
+        "announce": false,
+        "isCommunity": false,
+        "isCommunityAnnounce": false,
+        "joinApprovalMode": false,
+        "memberAddMode": true,
+        "participants": [
+            {
+                "id": "237650687834@s.whatsapp.net",
+                "admin": null
+            },
+            {
+                "id": "237676073559@s.whatsapp.net",
+                "admin": "superadmin"
+            }
+        ],
+        "author": "237676073559@s.whatsapp.net"
+    }
+]
+
+    ============================== Message sent from group ======================================
+    messages.upsert {
+    "messages": [
+        {
+            "key": {
+                "remoteJid": "120363315870322427@g.us",
+                "fromMe": false,
+                "id": "51D41B060016B053BB4A14DC5E33320D",
+                "participant": "237676073559@s.whatsapp.net"
+            },
+            "messageTimestamp": 1725028258,
+            "pushName": "Saint Cameroun",
+            "broadcast": false,
+            "verifiedBizName": "Saint Cameroun",
+            "message": {
+                "conversation": "Salut",
+                "senderKeyDistributionMessage": {
+                    "groupId": "120363315870322427@g.us",
+                    "axolotlSenderKeyDistributionMessage": "MwiWtZzTBxABGiC5GSLhhmr+XfkpKVZ7A08vhHPpDqlVsoaiv9AvSy+5ciIhBWkWtfpc3zXPtxDmZIktaD6Geo6C0lU+rFuofJ87ZcBs"
+                },
+                "messageContextInfo": {
+                    "deviceListMetadata": {
+                        "senderKeyHash": "eUGs87iETho05w==",
+                        "senderTimestamp": "1724670502",
+                        "recipientKeyHash": "RZmedoIcf3nZaA==",
+                        "recipientTimestamp": "1725017889"
+                    },
+                    "deviceListMetadataVersion": 2
+                }
+            }
+        }
+    ],
+    "type": "notify"
+}
+=================== GETTING group infos (metadata) with id ==================
+{
+    "id": "120363315870322427@g.us",
+    "subject": "Sims Yaoundé",
+    "subjectOwner": "237676073559@s.whatsapp.net",
+    "subjectTime": 1725025819,
+    "size": 2,
+    "creation": 1725025819,
+    "owner": "237676073559@s.whatsapp.net",
+    "restrict": false,
+    "announce": false,
+    "isCommunity": false,
+    "isCommunityAnnounce": false,
+    "joinApprovalMode": false,
+    "memberAddMode": true,
+    "participants": [
+        {
+            "id": "237650687834@s.whatsapp.net",
+            "admin": null
+        },
+        {
+            "id": "237676073559@s.whatsapp.net",
+            "admin": "superadmin"
+        }
+    ]
+}
+
+========================== SOMEONE REMOVING FROM GROUP ==========================================
+messages.upsert {
+    "messages": [
+        {
+            "key": {
+                "remoteJid": "120363315870322427@g.us",
+                "fromMe": true,
+                "id": "1092368786",
+                "participant": "237650687834@s.whatsapp.net"
+            },
+            "messageTimestamp": "1725027987",
+            "participant": "237650687834@s.whatsapp.net",
+            "messageStubType": "GROUP_PARTICIPANT_REMOVE",
+            "messageStubParameters": [
+                "237676073559@s.whatsapp.net"
+            ]
+        }
+    ],
+    "type": "append"
+}
+
+========================== ADDING TO GROUP ==========================================
+messages.upsert {
+    "messages": [
+        {
+            "key": {
+                "remoteJid": "120363315870322427@g.us",
+                "fromMe": true,
+                "id": "2108746980",
+                "participant": "237650687834@s.whatsapp.net"
+            },
+            "messageTimestamp": "1725028037",
+            "participant": "237650687834@s.whatsapp.net",
+            "messageStubType": "GROUP_PARTICIPANT_ADD",
+            "messageStubParameters": [
+                "237676073559@s.whatsapp.net"
+            ]
+        }
+    ],
+    "type": "append"
+}
+
+=============================LEAVING GROUP=======================================
+messages.upsert {
+    "messages": [
+        {
+            "key": {
+                "remoteJid": "120363315870322427@g.us",
+                "fromMe": false,
+                "id": "3897195737",
+                "participant": "237676073559@s.whatsapp.net"
+            },
+            "messageTimestamp": "1725028069",
+            "participant": "237676073559@s.whatsapp.net",
+            "messageStubType": "GROUP_PARTICIPANT_LEAVE",
+            "messageStubParameters": [
+                "237676073559@s.whatsapp.net"
+            ]
+        }
+    ],
+    "type": "append"
+}
+
+===============================JOIN WITH LINK=====================================
+messages.upsert {
+    "messages": [
+        {
+            "key": {
+                "remoteJid": "120363315870322427@g.us",
+                "fromMe": false,
+                "id": "4118183023"
+            },
+            "messageTimestamp": "1725028114",
+            "messageStubType": "GROUP_PARTICIPANT_ADD",
+            "messageStubParameters": [
+                "237676073559@s.whatsapp.net"
+            ]
+        }
+    ],
+    "type": "append"
+}
+
+========================== MENTIONING ==========================================
+messages.upsert {
+    "messages": [
+        {
+            "key": {
+                "remoteJid": "120363315870322427@g.us",
+                "fromMe": false,
+                "id": "545868ECCEFB84620CCA09BE712C31C7",
+                "participant": "237676073559@s.whatsapp.net"
+            },
+            "messageTimestamp": 1725028904,
+            "pushName": "Saint Cameroun",
+            "broadcast": false,
+            "message": {
+                "extendedTextMessage": {
+                    "text": "@237650687834",
+                    "previewType": "NONE",
+                    "contextInfo": {
+                        "mentionedJid": [
+                            "237650687834@s.whatsapp.net"
+                        ]
+                    },
+                    "inviteLinkGroupTypeV2": "DEFAULT"
+                }
+            }
+        }
+    ],
+    "type": "notify"
+}
+
+
+
+
+
+
+====================================================================
+messages.upsert {
+    "messages": [
+        {
+            "key": {
+                "remoteJid": "status@broadcast",
+                "fromMe": false,
+                "id": "5E697BF51367B7BBEB24",
+                "participant": "237659504801@s.whatsapp.net"
+            },
+            "messageTimestamp": 1725179104,
+            "pushName": "Ribito",
+            "broadcast": true,
+            "message": {
+                "senderKeyDistributionMessage": {
+                    "groupId": "status@broadcast",
+                    "axolotlSenderKeyDistributionMessage": "Mwiu+qSdBBAAGiCg2e5yNP8fg85NroI8ieW6H70vFVQ4ayWWrYscnDFNhSIhBb8c6aKcUsvhe6Y9Mva5/2G7KBPHod/XqPrQRn6E70d6"
+                },
+                "imageMessage": {
+                    "url": "https://mmg.whatsapp.net/o1/v/t62.7118-24/f1/m231/up-oil-image-62f9cd97-c20f-4471-ad8b-c7cb0fe60c52?ccb=9-4&oh=01_Q5AaILI-qeIon_XsLNa1Ipyvfzq-vukVzmxKSaoqvVDcgo9E&oe=66FB8919&_nc_sid=000000&mms3=true",
+                    "mimetype": "image/jpeg",
+                    "caption": "✨ **11 000 FOIS MERCIS !** ✨  Aujourd'hui, je célèbre avec vous **11 000 abonnés** ! Votre soutien et votre engagement font de cette communauté quelque chose de vraiment spécial. Ensemble, continuons à grandir et à partager des moments inoubliables. **Merci** à chacun pour chaque like, commentaire, et partage. **À bientôt** pour de nouvelles surprises !  Rejoignez-nous ici : Facebook.com/ASSONMELE",
+                    "fileSha256": "8O/aM4EsGWU2ACUC7UJ54JyKWjYnR2mJQp7PYfgzLWQ=",
+                    "fileLength": "48383",
+                    "height": 1080,
+                    "width": 499,
+                    "mediaKey": "gs4qvaMiV22ySkCgl6re5lP8HPKbM9cjUYaBLVroaRM=",
+                    "fileEncSha256": "wqZfvhoaPKSmTYEbs42enQB4JiVVfx9Q6UAmzebpgg0=",
+                    "directPath": "/o1/v/t62.7118-24/f1/m231/up-oil-image-62f9cd97-c20f-4471-ad8b-c7cb0fe60c52?ccb=9-4&oh=01_Q5AaILI-qeIon_XsLNa1Ipyvfzq-vukVzmxKSaoqvVDcgo9E&oe=66FB8919&_nc_sid=000000",
+                    "mediaKeyTimestamp": "1725179071",
+                    "jpegThumbnail": "/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABEMDQ8NCxEPDg8TEhEUGSocGRcXGTQlJx8qPTZBQDw2OzpETGJTREhcSTo7VXRWXGVobW5tQlJ4gHdqf2JrbWn/2wBDARITExkWGTIcHDJpRjtGaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWn/wgARCABgACwDASIAAhEBAxEB/8QAGwAAAgMBAQEAAAAAAAAAAAAABAYAAgMFAQf/xAAZAQADAQEBAAAAAAAAAAAAAAAAAQIDBAX/2gAMAwEAAhADEAAAAHfRR92zbYlbjarqHoubxusUzkj0v2YSppAVD+ha+b1KhDba5Vo0yaCFD81hgsueoYrLLAmLh0vUcrU6wwD9JL5pkqi2oNxlQbRV/8QAIREAAQQCAgIDAAAAAAAAAAAAAQACAxEUURITBDEQMkH/2gAIAQIBAT8Ax5NLHk0seTSPkPbelG8vbyXbHftFxIpNlc0UFzKx5auljyaT4ZGC3ClzeB9l2P2UXud7KNfiPx//xAAeEQADAAEFAQEAAAAAAAAAAAAAAQIRAxITMVEhIv/aAAgBAwEBPwDkk5IOSRaU1hFztrBsrwSSeRwm8s2nLHWTlj0nUmnhM2z4bJ8FKXSFkXf0/J//xAA4EAACAQMCAwUDCQkAAAAAAAABAgMABBEFEiExUQYTIkFhEHGRFBVCUoGSsdHhICQyMzRUVYLB/9oACAEBAAE/AHWVnzHKqrjkVzx+PsJAGSRj2SiQ47uRU581z/2lIZQQwYHzFDtbKucWcYycnxmh2vnI/pI/vmm7QIylTpsGG5jeeNJ2slRcJZRKOgc0e1TmRnNjEWZdpJc8ulJ2sliXYtlGADyMhNXuk/IoWmmv4UUct6EAnnjPWluYnbbHdxk+QIK5+0ijbXinjF8SPzrvXxwApbiRPEuAetGd2OTxJ45rThBqlxqp1JVmS2WNVEkhRc5wSSATz9KvuzulR6cbh7aG3y6CN4rtpA+WAI4geVQSsEmiBP7vKY1J4+E5wPswfjSvKzBVyWY4HDzptJnCLJI4be23ZEN7Z91P2bvgcIYmHUttPwNaxYXnZ6W4kJeS1vAu+SJeG4HJBzy48atNatdzQFLp45ioMYYYY5HMZwaseyTyR3DR3ezdO2d8ZB4ch68zx86HY64Ugi+QEHIOw/nUfZnUEkR21QSbRgLIhIxjBHPp0qbsxfSybvnEIMABEDAKAMADjUk920ksYSzkiBxhpDnHQjrUNrp9syypb2kMjfSRFBz6GhIhOA6k+/8AYnknDzCIwgBcoWI4t5g1bNqTauxnltjY92MIpGQ2Bn155rvYR9OP4iu9j+uvxpZEb+F1PuPsvtYtIruaJ0uNyMQdoTGfTNLrFtgMkFyN2cYCUuq2xO75Pct/qlfO9vj+RdfdSl1+0i8IS5BDZ5Lw6jhVncpeWsdxGpVZBkBudTadbSTO72kTMxyWKc6k0yEEd3p9sw453DGOnlXzan+Ltvj+lDS7TAzYw58/BR0q028LGHOfqVbxrDCkaIEVRwUDAFOs5clHQL0K/rUYlGe8ZT0wMUq3O4bpIivn4Dn8aYTb8o6BcciuT+Pt2gSSSC3lJWTK4mPiHPOOX2UZZsAi3JyMkbxw9K72b+2P3xRYKuWIUdSa3ps3712/WzwpJI5BlHVh1BzQt1F2bne+4pt27vDj3VcRIJ47pmlzGCAiAkHPoKnkhnkhdlu1MTbgFicA+/hUoh1BO4dJgudx3RsoOPUipNOgayNpGDFGTnwH19ags7e3j2RxKBzPDmetf//+AAMA/9k=",
+                    "thumbnailDirectPath": "/v/t62.35850-24/30022174_1232128741359623_8177230073400413847_n.enc?ccb=11-4&oh=01_Q5AaIE5SOzkYnwctKp65t96kdIUxlj3sD5O4hRmzl3B1TuBv&oe=66FB9BEE&_nc_sid=5e03e0",
+                    "thumbnailSha256": "huTvf1QoI6msaT/5QUWq5DX2973HrOV/IEO4YXmX6WI=",
+                    "thumbnailEncSha256": "gcsVgFsywxyCNHaMKBaEsrV7ltOUKie+H4dJCo8r3Fo="
+                },
+                "messageContextInfo": {
+                    "deviceListMetadata": {
+                        "senderTimestamp": "1725178440",
+                        "recipientKeyHash": "RZmedoIcf3nZaA==",
+                        "recipientTimestamp": "1724228634"
+                    },
+                    "deviceListMetadataVersion": 2
+                }
+            },
+            "verifiedBizName": "Ribito"
+        },
+        {
+            "key": {
+                "remoteJid": "status@broadcast",
+                "fromMe": false,
+                "id": "3E4DEF1D3CDF95F609BE3B8B1D1BFC9C",
+                "participant": "237676073559@s.whatsapp.net"
+            },
+            "messageTimestamp": 1725180264,
+            "pushName": "Saint Cameroun",
+            "broadcast": true,
+            "message": {
+                "senderKeyDistributionMessage": {
+                    "groupId": "status@broadcast",
+                    "axolotlSenderKeyDistributionMessage": "MwiHzoecAhAGGiBAOb85O7mbzvi6e5MzRrmPQk5uCXkG2ggc8zodL3z0PCIhBTNVMvD1tXT2e10A8kUlcepjDLhU4zkBBQjVR00+mxsg"
+                },
+                "imageMessage": {
+                    "url": "https://mmg.whatsapp.net/o1/v/t62.7118-24/f1/m235/up-oil-image-2f93490d-7ea0-4d20-9413-8b79edc6e021?ccb=9-4&oh=01_Q5AaIL8pu4mn8pdX_BNFiDQ_1rp4MWtkUWM2jQaFXMo2G7aj&oe=66FB963E&_nc_sid=000000&mms3=true",
+                    "mimetype": "image/jpeg",
+                    "caption": "Lyricallement parlant... cette chanson tabasse tout les sons sortis ces 10 dernières années qui sont pas de Kendrick Lamar",
+                    "fileSha256": "vfXCkYMOcAcODBrnbXRMccOgHL7sTFxh8iJ9/xiHaXA=",
+                    "fileLength": "7739",
+                    "height": 181,
+                    "width": 720,
+                    "mediaKey": "olUOIADT69IxEcdRxOcqIBvEau131fYcwfUKpPwc+Jc=",
+                    "fileEncSha256": "X5T9CQJiyCjEJpbK76O63aFLkRW7sktUSiRebl8Wt3k=",
+                    "directPath": "/o1/v/t62.7118-24/f1/m235/up-oil-image-2f93490d-7ea0-4d20-9413-8b79edc6e021?ccb=9-4&oh=01_Q5AaIL8pu4mn8pdX_BNFiDQ_1rp4MWtkUWM2jQaFXMo2G7aj&oe=66FB963E&_nc_sid=000000",
+                    "mediaKeyTimestamp": "1725180260",
+                    "jpegThumbnail": "/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkJCQkKCQoLCwoODw0PDhUTERETFR8WGBYYFh8wHiMeHiMeMCozKScpMypMOzU1O0xXSUVJV2pfX2qFf4WuruoBCQkJCQoJCgsLCg4PDQ8OFRMRERMVHxYYFhgWHzAeIx4eIx4wKjMpJykzKkw7NTU7TFdJRUlXal9faoV/ha6u6v/CABEIACgAoAMBIgACEQEDEQH/xAAxAAEAAgMBAQAAAAAAAAAAAAAAAwQBAgUGBwEBAQEBAQAAAAAAAAAAAAAAAAIBBAP/2gAMAwEAAhADEAAAAPtG2fDJ9w+e9OJ9e4PVv0subMXEgjSCNII0gjSCPXEg+L/aPCM8f28el566ubEPRlXNzUjjs3zldsFazERxWIyO3BYKVyGY02DIAAAAAAAMah//xAAwEAACAQQCAQIDBQkAAAAAAAABAgMABBESBSFBEzEQFFEGImFxsRUgJDAygZKh0f/aAAgBAQABPwCtDWhrQ1oa0NaGtDWhrQ1oa0NaGtDWhrQ1oa0NaH4JXM8/yEfIS29m8aJCQHLDJJNftzlPT7vYg+CcBf8AtcLzl1LfJZ3MiyiVC0bhce1Ne8wOeW2Fo3yWO5NesY99vrmmuLkFgLctjP4exx+ndC9vux8ic65XvzQu7rK5smwfc7e38uB7hg3rRKmDgYbbP409JX2n5A2l3yjtqFF2Fyc9ZQfSrPkVm5GK0hjkKrbriR0YBhkD61wtpdQ8/wAe0zgqEljTCkDVRVy/MpcM0CRvCXVQreF8nxXqcw6JmOND6eWwO9/oMn2o3XProDawMzDPQIHsMgnann5/TdIISckBCpHnpj941LdcutyyJaIyYXB/PGe80svOehu0MYmz2gGVxg/U1DPzTSoJLaFY9hscd4/y+Nzdw2ojaZtVdtc+BhS3f9hVneQXsAngYtGSQDjGcHFcnyEPGWM97MrtHEASE9+zirO/hvJLxI1cG3mMT7eSBnqpZFiikkb+lFLH8hVpydpekC3k3ym/+8YNP4pK577Jw3Ut1diB7kud/l99Vd6seF55I5YXtngQH7mr56rg+HniuPmrlZFdRhQxBqaG+MjGGZVy4OSScL5ABBFLBzAYE3cZA8a+/X5V8vyLI6tdD70LL0MYcqACCAPNPa8mGb0btVTxsNvAHkGhb8nuP4wa9bdAnxnHVW6zrEBO4dwTlh+5LBFNp6iBtG2XP1wR+hqC3gto/TgjVEyTqvQyTk1e2Vvf2strcpvDIAGXJGcHPirezt7Z7h4U1M8hkk7Jyxp0WRGRxlWBBH1BqGztbcqYYVTVNBr0AtP8NzW5rc1ua3NbmtzW5rc1ua3NbmtzW5rc1ua3Nbn4f//EACMRAQACAgEBCQAAAAAAAAAAAAECAxEhEgAEIjAxMkBBYdH/2gAIAQIBAT8A7oLKREPl6rtqsUhYMt6wnl4PFkYMeod/T1X2WVN/ONgx47MG3f77P//EACARAQACAQMFAQAAAAAAAAAAAAECEQMAIUESIjAxQGH/2gAIAQMBAT8AnLpLpfw05Kq4oPO3PhqK961T60mKeGK7TEo34fj/AP/Z",
+                    "contextInfo": {},
+                    "scansSidecar": "lmpxv7khM2qnNrJ7ZLmJ2Te70GS+DpaHB3xV4RZ4YfJ9xuMMHp5QOg==",
+                    "scanLengths": [
+                        1010,
+                        3426,
+                        1381,
+                        1922
+                    ],
+                    "midQualityFileSha256": "C3dlD573xBPTlxjk7N42Hi3NSKMDxneymRYNQ5RPEGE="
+                },
+                "messageContextInfo": {
+                    "deviceListMetadata": {
+                        "senderKeyHash": "eUGs87iETho05w==",
+                        "senderTimestamp": "1724670502",
+                        "recipientKeyHash": "RZmedoIcf3nZaA==",
+                        "recipientTimestamp": "1725017889"
+                    },
+                    "deviceListMetadataVersion": 2
+                }
+            },
+            "verifiedBizName": "Saint Cameroun"
+        },
+        {
+            "key": {
+                "remoteJid": "status@broadcast",
+                "fromMe": false,
+                "id": "F5992AFEEB5654D77C6BE0A890145413",
+                "participant": "237676073559@s.whatsapp.net"
+            },
+            "messageTimestamp": 1725180363,
+            "pushName": "Saint Cameroun",
+            "broadcast": true,
+            "message": {
+                "videoMessage": {
+                    "url": "https://mmg.whatsapp.net/v/t62.7161-24/25235439_1231161498079782_5033987513091405976_n.enc?ccb=11-4&oh=01_Q5AaICSIskYzHF2LWSuupXAYnus5isDletYgwuOu9nmMSE30&oe=66FB967A&_nc_sid=5e03e0&mms3=true",
+                    "mimetype": "video/mp4",
+                    "fileSha256": "hTK4OWbeqJeZmHgHY8liUEQq2jBEE2/xxGFyYZVmC8U=",
+                    "fileLength": "5119156",
+                    "seconds": 60,
+                    "mediaKey": "6xDjMh4VbhGBWwBhpyd6TOwNul6qXE8bExGC4ffWNwA=",
+                    "height": 1024,
+                    "width": 576,
+                    "fileEncSha256": "CNjizKIc3D1BieMMclgW4PVApMPo+DjRzlj68UDci7A=",
+                    "directPath": "/v/t62.7161-24/25235439_1231161498079782_5033987513091405976_n.enc?ccb=11-4&oh=01_Q5AaICSIskYzHF2LWSuupXAYnus5isDletYgwuOu9nmMSE30&oe=66FB967A&_nc_sid=5e03e0",
+                    "mediaKeyTimestamp": "1725180358",
+                    "jpegThumbnail": "/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkJCQkKCQoLCwoODw0PDhUTERETFR8WGBYYFh8wHiMeHiMeMCozKScpMypMOzU1O0xXSUVJV2pfX2qFf4WuruoBCQkJCQoJCgsLCg4PDQ8OFRMRERMVHxYYFhgWHzAeIx4eIx4wKjMpJykzKkw7NTU7TFdJRUlXal9faoV/ha6u6v/CABEIAKAAWgMBIgACEQEDEQH/xAAxAAEAAgMBAQAAAAAAAAAAAAAAAwUBAgQGBwEBAAMBAAAAAAAAAAAAAAAAAAECBAP/2gAMAwEAAhADEAAAAPhoAAAAAAAAAAAGd+iLcqw9RW3iJPQ1EW4XUmOVPia8+JNZrtPzWKfpVh52tw7fYU1Sm/itsS68MWSZxlqSWnsPG872nZ56y46eyaqlm9FJFL2xbcF/U1v39UMnPR6SHwdh3xSKe8i/Vz83JW3P08e3Th7rx8thw3c2ttpWKDkxtrwaZ2wpLHiVaPOMwzZ1foq9Nqm5r+fejzq0ZJUaEllUyGWuhJtCPWVNXrE4FoAAAAAAAAAAA//EADUQAAICAQIEBQIDBgcAAAAAAAECAxEABCEFEjFBEBNRYXEUIgaBkTJQU5KhsSAjNENSwdH/2gAIAQEAAT8A/eNZRzlb0zlb0yWGSJgrrRKqw+GFjArHYDCjDqM5G9M5GN7ZXgqlrxY/scmhygfO+aTS6vWSmPTxGR+/Sq9yc0v4SkBlfXalY4kTmtN7AzWcP0Fk6R9SEANGRVIJ/KqGTwSpRc2tUrXYIGKqqSGatjWbKbJG4OM7FLJFWcjYqwNA0R1xqyjisV6ehH65DG+omjiTq7BRfuaGcM0EWg04ijNm7d+7HG1GkQNFqDauKK7k0fjEl4OVK/RO256V/wBtnGuGcMk0Wpk0heAhBJ5LkGmT0q+2Em8JNDBeAPVgbDPt22zlHhwuUx8Q0rV/uAfzbZquJEHyovhmx9YIfubcnNJxkPIE8nNfxaOZZtMsZ56Zfg1RGKosXuMNb107YCbvC1knted9h2zfDp5qBK7WB+uIFhMcSNRuy3xjsQVYgb3kToQObpWGfSRnmFqL/aNm/wC+JJoJJCwG72emxPfrjRIFO/3CQr+Q755Om5lXzWNj0oXmo0DRoJEsgkCj74A0TkMu4JsZw/TRS081hSaVR1JwlL/08f8AIM/D/D4dfPEZJg8enn07SQcoa4i/3u11SAftHOJajTSamd9JAYYHNpGz+YU9g1DNNNJJHbPYQ1WA88ZUHcggYdJOhHM6n52H9ji6aUKssjpyB+i4UVpKR1a15idwBtZu/TvnmwlVi5QSp2kFgkYki8hG11Yu7NdgcnkEshflq80mpEUKo7MFrPrdP/Fk/Q5FxThScO4dA2j0H1Q+8zuvOTyO1o6+U4POGrOMpwPUxxppNNBpooBdRvK7Pdnq6r0yCCGMsiaqGYMoJMYcBTZFHnVcuWBjQtcj4vFXLKo97GcS4mskKwQihdtgchr9v6dKzRNBHLcq8wr9DkCaSRA6KjKO+amVZ5mdIgi9lXIkEkDJvdXn06f8mwO/PH3ois1mtUxeSg+TiSPG4dDRyHUxToez1uuRxRPMLHfpmtZX1MxXpYA/IVg8NJOiFw6k8yFVIblAJ7msijhClFILsx6YNJDE7BW/zAdq3FdwcqLJNQrrtEoe933uqqsN+AJBsYJmF7mz75vuRnQ+Oikddwh5R1yTUFUNA9v/ACzhhnJJ516+owHwIys5cr7bw+PAJUMssEhFOtrfqMn4cU5gmqblI3Bz6FP4/wDTwBxc5cGaJImLBhzEqaX2O1j3HbGBsj3wHDkcpR1ddipBHyDeT66CROdCaOHUrf8Ags+uXiSyRsGRqIxpGZiSdyb8LPgGYWAf3l//xAAfEQEAAwACAgMBAAAAAAAAAAABAAIRECESMAMTMVL/2gAIAQIBAT8A9i5G4fsPk38nkzXOGO2ZUsNYvOtwZauOMw/qO5KXXpltWYnRLVd2VrXYmmQr9bZe43gZx1xc2spUDjJkyZPA9v8A/8QAIhEAAgICAQQDAQAAAAAAAAAAAQIAEQMhEhATMDEgIkFC/9oACAEDAQE/APIFuBL9TtVDjAGzKX8lRdmjMaio4UroxQTyJgoDXQKqNEyA7E5GtrEr7XMqKu1mIqqAEyxbGY2BFejHdwlcpjYKwJFzLlTOqKmh/U7ehCSem4Jibi1iZMpJ+V+X/9k=",
+                    "contextInfo": {},
+                    "streamingSidecar": "GBkcXrCoLEJkAuDbBe6I8/pg/GC8+RvegHkljA6Qofnle29HEVVIyDmePxv0e83qtU6Itjsm8EEAA+RikPR1PAa+tV5RAgUNOkX7FAEiqQx7fTPN85+toUWKu73TNh/xO5XXpbR97UdxPOIqvOLwKep60F0Zu2hoOIA2N8YrTG9zCrucYDp9n4RWioD9YEGmyAjsPNw6esxwEMywd8KyHaN1adLGjUwiimZx6DTI6kMy1Zp2exVLDJrZxprunAPosnwJIzjxmo1HPN0fLQX1LgR8nrq9hDqoB+PPTnGszZlaKOB1WB2w7dlre+wrzqJMzSmZglOvvsru+82NJKK7TAKmvrBPK/ZwYKbdHhxkESAZ4Iik7NPpiGrY2FUwTVrP+Y6IJJfvom5Lp8spgE6gTgEnye7zOR/e6DTvAzzpnwLeqn5DI7tJZi6Irv/J1JInfJJPhnCM1tmGASNcsJJRYBcmjhKrpqiMMzLuWtkG4hoR1sXh9Rjct6eFZTL0fbg+q8acDVgXCzJtpzO6jc/oOEANuwgm+EagUE5JM//0gqpl7lntQFgJQGHNiFC7wodOgs6Ybmd0PFhpPjzll3DVrHH8C6i6NBoKkDf/UrpmLXpAV28NDWUMUbBW0fsGW46yLzDavdcF+zYpLBWdpVHLT7ijqGdLxb20O2Qn7AtUTUN30zsERAPIJl4pd4C5NvmlTomwUGRtzWriZKZ6P77wlUuaiFgeJca2vGeRN0DukWKtLxzlOKwTpbqre+EA7uNVmviHxhIOSQQbR6RbP5y2v7A952zZL0OPzjtc/p3ZOB2dlnsBBvbzkIi5BXI4WM3Hir98d7dpIaxWfP+9ibv3or/fjfBnzqBSXEQvFpjQHFcEn98FGwM33P6lauqWiihLiTDG33EfaaerBLLhcNZeGk+F5L0xLJvMupv5lsWYz2WOIqpl7dTl9oAqXDV7Vj+d54M1fCTPOMCJgtNYjWRKcswXapj+A345I+DlAnPIwAJgHbps4x5DnF/dLbmfDJsodkyjmCxLI7SWl3fJYhNirJJL7U77NA==",
+                    "thumbnailDirectPath": "/v/t62.36147-24/30507584_1201219494425680_7992166554990812536_n.enc?ccb=11-4&oh=01_Q5AaIK9lRdIL-hydr34JD5Ir3pMCntSMk3wwqdb2nyEWlahE&oe=66FB8BAC&_nc_sid=5e03e0",
+                    "thumbnailSha256": "RcVFEcOYewmFqgqw47Yjnm6CX5nFGNS0vPqHDxRA1yw=",
+                    "thumbnailEncSha256": "V5UOYrSBjB8sf07KtKvh8N9a1N65EKenzx/a2yPum1s="
+                }
+            }
+        },
+        {
+            "key": {
+                "remoteJid": "status@broadcast",
+                "fromMe": false,
+                "id": "700D1F506B66D70CA844760C3B0BFD39",
+                "participant": "237676073559@s.whatsapp.net"
+            },
+            "messageTimestamp": 1725189308,
+            "pushName": "Saint Cameroun",
+            "broadcast": true,
+            "message": {
+                "protocolMessage": {
+                    "key": {
+                        "remoteJid": "status@broadcast",
+                        "fromMe": true,
+                        "id": "D742EB480AFA0449F8B8BD891DC606C5"
+                    },
+                    "type": "REVOKE"
+                },
+                "messageContextInfo": {
+                    "deviceListMetadata": {
+                        "senderKeyHash": "eUGs87iETho05w==",
+                        "senderTimestamp": "1724670502",
+                        "recipientKeyHash": "RZmedoIcf3nZaA==",
+                        "recipientTimestamp": "1725017889"
+                    },
+                    "deviceListMetadataVersion": 2
+                }
+            },
+            "verifiedBizName": "Saint Cameroun"
+        },
+        {
+            "key": {
+                "remoteJid": "237676073559@s.whatsapp.net",
+                "fromMe": false,
+                "id": "4BAE1C395B9D892DDD50E624167589B7"
+            },
+            "messageTimestamp": 1725190538,
+            "pushName": "Saint Cameroun",
+            "broadcast": false,
+            "message": {
+                "conversation": "Yo",
+                "messageContextInfo": {
+                    "deviceListMetadata": {
+                        "senderKeyHash": "eUGs87iETho05w==",
+                        "senderTimestamp": "1724670502",
+                        "recipientKeyHash": "RZmedoIcf3nZaA==",
+                        "recipientTimestamp": "1725017889"
+                    },
+                    "deviceListMetadataVersion": 2
+                }
+            }
+        }
+    ],
+    "type": "append"
+}

@@ -1,0 +1,1 @@
+{"x":5,"to":"/Function(function(f, val){ return f(val/2) })/","from":"/Function(function(f, val){ return f(val) })/"}
