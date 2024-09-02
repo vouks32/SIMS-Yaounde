@@ -1,11 +1,12 @@
 const makeWASocket = require('@whiskeysockets/baileys').default;
 const fs = require('fs-extra')
+const path = require('path')
 const { DisconnectReason, useMultiFileAuthState, downloadMediaMessage } = require('@whiskeysockets/baileys');
 const { processMessage } = require('./Game');
 
 async function connectionLogic() {
 
-    const { state, saveCreds } = await useMultiFileAuthState('auth_info_baileys')
+    const { state, saveCreds } = await useMultiFileAuthState(path.join(process.cwd(), 'auth_info_baileys'))
     const sock = makeWASocket({
         // can provide additional config here
         auth: state,
@@ -55,8 +56,8 @@ async function connectionLogic() {
                     if (!fs.existsSync(path))
                         fs.mkdirSync(path)
                     await fs.writeFile(path + fileName, buffer)
-                    return { filePath: path + fileName, caption: m.message.imageMessage.caption}
-                }else{
+                    return { filePath: path + fileName, caption: m.message.imageMessage.caption }
+                } else {
                     return false
                 }
             },
