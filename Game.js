@@ -96,7 +96,7 @@ const processMessage = async (message) => {
         }
     }
 }
-
-
-
+module.exports = {
+    processMessage
+}
 
