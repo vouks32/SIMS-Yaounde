@@ -31,7 +31,7 @@ async function connectionLogic() {
             text: msgData.messages[0]?.message?.conversation || msgData.messages[0]?.message?.extendedTextMessage?.text || "",
             mentions: msgData.messages[0]?.message?.extendedTextMessage?.contextInfo?.mentionedJid || [],
             reply: async (_message) => {
-                const sentMsg = await sock.sendMessage(chatId, { text: _message.text, mentions: _message.mentions || [] }, { quoted: msgData.messages[0] })
+                const sentMsg = await sock.sendMessage(chatId, { text: "*🤖𝓙𝓤𝓝𝓘𝓞𝓡🤖*\n\n"+_message.text, mentions: _message.mentions || [] }, { quoted: msgData.messages[0] })
             },
             downloadImage: async (path, fileName) => {
                 const m = msgData.messages[0]
