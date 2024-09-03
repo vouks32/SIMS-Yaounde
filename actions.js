@@ -100,7 +100,7 @@ let Actions = [
              * 
              * 
              */
-            let player =  SetLastAction(player.id, 'action')
+            let player =  SetLastAction(msg.player.id, 'action')
 
             await msg.reply({ text: 'Félicitation!\nVous Jouez maintenant à SIMS Yaoundé sous le pseudonyme *' + name + '*\n' })
             await msg.reply({
