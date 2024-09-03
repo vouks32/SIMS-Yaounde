@@ -28,7 +28,7 @@ async function connectionLogic() {
             fromId: msgData.messages[0]?.key?.participant ? msgData.messages[0]?.key?.participant : msgData.messages[0]?.key?.remoteJid,
             isFromGroup: msgData.messages[0]?.key?.participant ? true : false,
             groupId: msgData.messages[0]?.key?.participant ? msgData.messages[0]?.key?.remoteJid : null,
-            text: msgData.messages[0]?.message?.conversation || msgData.messages[0]?.message?.extendedTextMessage?.text,
+            text: msgData.messages[0]?.message?.conversation || msgData.messages[0]?.message?.extendedTextMessage?.text || "",
             mentions: msgData.messages[0]?.message?.extendedTextMessage?.contextInfo?.mentionedJid || [],
             reply: async (_message) => {
                 const sentMsg = await sock.sendMessage(chatId, { text: _message.text, mentions: _message.mentions || [] }, { quoted: msgData.messages[0] })
