@@ -96,14 +96,19 @@ let Actions = [
             UpdatePlayerAttribute(msg.player.id, "name", name)
             UpdatePlayerAttribute(msg.player.id, "sex", sex.startsWith('f') ? 'F' : 'M')
             UpdatePlayerAttribute(msg.player.id, "isDead", false)
+            /**
+             * 
+             * 
+             */
+            let player =  SetLastAction(player.id, 'action')
+
             await msg.reply({ text: 'Félicitation!\nVous Jouez maintenant à SIMS Yaoundé sous le pseudonyme *' + name + '*\n' })
             await msg.reply({
                 text: "Voici les trucs que tu peux faire, envoie just le chiffre de l'action que tu veux accomplir\n\n" +
-                    Actions.filter(_action => !_action.id.startsWith('!') && parseInt(_action.id) > 0 && _action.condition(player)).map(_action => "- *" + numberToEmoji(_action.id) + "* " + _action.name + "\n")
+                    Actions.filter(_action => !_action.id.startsWith('!') && parseInt(_action.id) > 0 && _action.condition(player)).map(_action => "- *" + numberToEmoji(_action.id) + "* " + _action.name + "\n").join('')
             })
             if (parseInt(Math.random() * 100) < 6)
                 await msg.reply({ text: "Oublie pas que je peux faire plein de truc, pour savoir quoi, envoie *!info*" })
-            SetLastAction(player.id, 'action')
         }
     },
     {
