@@ -106,5 +106,6 @@ module.exports = {
     SetLastAction,
     UpdatePlayerAttribute,
     checkPlayerInGroup,
+    checkPlayer,
     getDirectories
 }

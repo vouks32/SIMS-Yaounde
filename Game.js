@@ -1,7 +1,7 @@
 const fs = require('fs-extra')
 const path = require('path');
 const { Actions, groupActions } = require('./actions.js')
-const { getDirectories, SetLastAction, checkPlayerInGroup, numberToEmoji, EmojiToNumber, UpdatePlayerAttribute } = require('./functions.js')
+const { getDirectories, SetLastAction, checkPlayerInGroup, checkPlayer, numberToEmoji, EmojiToNumber, UpdatePlayerAttribute } = require('./functions.js')
 
 
 

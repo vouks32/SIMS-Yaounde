@@ -1,4 +1,4 @@
-const { getDirectories, SetLastAction, checkPlayerInGroup, numberToEmoji, EmojiToNumber, UpdatePlayerAttribute } = require('./functions.js')
+const { getDirectories, SetLastAction, checkPlayerInGroup, checkPlayer, numberToEmoji, EmojiToNumber, UpdatePlayerAttribute } = require('./functions.js')
 
 const fs = require('fs-extra')
 
@@ -282,7 +282,7 @@ let groupActions = [
                 }
 
                 console.log("All player initialised, group is Saved")
-                msg.reply({text: "*Lets Gooooooooo!*\nUne partie de SIMS Yaoundé a été lancé dans ce group🪄✨\nJ'ai envoyé un message en privé à chacun d'entre vous!"})
+                msg.reply({ text: "*Lets Gooooooooo!*\nUne partie de SIMS Yaoundé a été lancé dans ce group🪄✨\nJ'ai envoyé un message en privé à chacun d'entre vous!" })
                 fs.writeJSONSync('./Games/' + msg.groupId + '/gameInfos.json', defaultGroupInfos)
                 return defaultGroupInfos;
             } else {
