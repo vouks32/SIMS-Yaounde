@@ -1,5 +1,5 @@
-const { getDirectories } = require('./functions.js')
-const Game = require('./Game.js')
+const { getDirectories, SetLastAction, checkPlayerInGroup, numberToEmoji, EmojiToNumber, UpdatePlayerAttribute } = require('./functions.js')
+
 const fs = require('fs-extra')
 
 
@@ -8,7 +8,7 @@ let Actions = [
         id: "!info",
         name: "Pour en savoir plus sur moi",
         description: "",
-        setLastAction: (playerId, action) => { Game.SetLastAction(playerId, action) },
+        setLastAction: (playerId, action) => { SetLastAction(playerId, action) },
         condition: (player) => true,
         action: async (msg) => {
 
@@ -27,7 +27,7 @@ let Actions = [
         id: "!jouer",
         name: "Pour jouer à une partie de SIMS Yaoundé",
         condition: (player) => true,
-        setLastAction: (playerId, action) => { Game.SetLastAction(playerId, action) },
+        setLastAction: (playerId, action) => { SetLastAction(playerId, action) },
         description: "",
         action: async (msg) => {
             let path = getDirectories('./Games');
@@ -38,33 +38,39 @@ let Actions = [
 
             let groupInfos = null;
             path.forEach(groupId => {
-                if (Game.checkPlayerInGroup(msg.fromId, groupId).isPlayer)
-                    groupInfos = Game.checkPlayerInGroup(msg.fromId, groupId).groupInfos
+                if (checkPlayerInGroup(msg.fromId, groupId).isPlayer)
+                    groupInfos = checkPlayerInGroup(msg.fromId, groupId).groupInfos
             })
 
             // IF HE IS NOT A MEMBER OF A GROUP, ASK HIM TO JOIN
             if (!groupInfos) {
                 let a = Actions.find(action => action.id == 'joinGroup')
                 await msg.reply({ text: "*" + a.name + "*\n" + a.description })
-                Game.SetLastAction(msg.fromId, 'action-joinGroup')
+                SetLastAction(msg.fromId, 'action-joinGroup')
                 return
             }
 
             // IF HE IS MEMBER OF A GROUP... THEN START HIS PARTY
             console.log('ini Player')
-            await Game.StartPlayerGame(msg)
+            /**
+            * START ¨PLAYER GAME
+            */
+            let a = Actions.find(_action => _action.id.startsWith('iniPlayer'))
+            await msg.sock.sendMessage(msg.player.id, { text: a.name })
+            await a.description(msg);
+            SetLastAction(msg.player.id, 'action-' + a.id)
 
         }
     },
     {
         id: "joinGroup",
         name: "Vous n'êtes pas encore membre d'un group. Choisissez un group pour y jouer:\n",
-        description: () => getDirectories('./Games').map((groupId, index) => Game.numberToEmoji(index + 1) + " " + fs.readJSONSync('./Games/' + groupId + '/gameInfos.json').name + "\n"),
-        setLastAction: (playerId, action) => { Game.SetLastAction(playerId, action) },
+        description: () => getDirectories('./Games').map((groupId, index) => numberToEmoji(index + 1) + " " + fs.readJSONSync('./Games/' + groupId + '/gameInfos.json').name + "\n"),
+        setLastAction: (playerId, action) => { SetLastAction(playerId, action) },
         conditionsToPerformAction: [],
         condition: (player) => true,
         action: async (msg) => {
-            let choiceNumber = Game.EmojiToNumber(msg.text);
+            let choiceNumber = EmojiToNumber(msg.text);
             if (!getDirectories('./Games')[parseInt(choiceNumber) - 1]) {
                 await msg.reply({ text: "Le choix n'est pas disponible, veillez faire un nouveau choix!" })
                 return;
@@ -80,16 +86,16 @@ let Actions = [
         description: async (msg) => {
             await msg.sock.sendMessage(msg.fromId, { image: { url: './images/iniPlayer.jpg' }, caption: "Voici 2 examples\nN'envoyez pas 2 fois pardon, c'est just l'example" })
         },
-        setLastAction: (playerId, action) => { Game.SetLastAction(playerId, action) },
+        setLastAction: (playerId, action) => { SetLastAction(playerId, action) },
         conditionsToPerformAction: [],
         condition: (player) => player.isDead,
         action: async (msg) => {
             let media = await msg.downloadImage('Players/' + msg.player.id + '/', 'profil.jpg')
             let name = media.caption.split(',')[0];
             let sex = media.caption.split(',')[1];
-            Game.UpdatePlayerAttribute(msg.player.id, "name", name)
-            Game.UpdatePlayerAttribute(msg.player.id, "sex", sex.startsWith('f') ? 'F' : 'M')
-            Game.UpdatePlayerAttribute(msg.player.id, "isDead", false)
+            UpdatePlayerAttribute(msg.player.id, "name", name)
+            UpdatePlayerAttribute(msg.player.id, "sex", sex.startsWith('f') ? 'F' : 'M')
+            UpdatePlayerAttribute(msg.player.id, "isDead", false)
             await msg.reply({ text: 'Félicitation!\nVous Jouez maintenant à SIMS Yaoundé sous le pseudonyme *' + name + '*\n' })
             await msg.reply({
                 text: "Voici les trucs que tu peux faire, envoie just le chiffre de l'action que tu veux accomplir\n\n" +
@@ -97,7 +103,7 @@ let Actions = [
             })
             if (parseInt(Math.random() * 100) < 6)
                 await msg.reply({ text: "Oublie pas que je peux faire plein de truc, pour savoir quoi, envoie *!info*" })
-            Game.SetLastAction(player.id, 'action')
+            SetLastAction(player.id, 'action')
         }
     },
     {
@@ -107,7 +113,7 @@ let Actions = [
         conditionsToPerformAction: [],
         condition: (player) => true,
         action: async (msg) => {
-            let choiceNumber = Game.EmojiToNumber(msg.text);
+            let choiceNumber = EmojiToNumber(msg.text);
         },
         "subActions": [
             {
@@ -141,7 +147,7 @@ let Actions = [
                      * 
                      * 
                      */
-                    Game.SetLastAction(msg.fromId, 'idle')
+                    SetLastAction(msg.fromId, 'idle')
                 }
             },
             {
@@ -154,7 +160,7 @@ let Actions = [
                 "daysToPerfom": 70,
                 condition: (player) => true,
                 "action": (msg) => {
-                    Game.SetLastAction(msg.fromId, 'idle')
+                    SetLastAction(msg.fromId, 'idle')
                 }
             },
             {
@@ -167,7 +173,7 @@ let Actions = [
                 "daysToPerfom": 70,
                 condition: (player) => true,
                 "action": (msg) => {
-                    Game.SetLastAction(msg.fromId, 'idle')
+                    SetLastAction(msg.fromId, 'idle')
                 }
             },
             {
@@ -180,7 +186,7 @@ let Actions = [
                 "daysToPerfome": 80,
                 condition: (player) => true,
                 "action": (msg) => {
-                    Game.SetLastAction(msg.fromId, 'idle')
+                    SetLastAction(msg.fromId, 'idle')
                 }
             },
             {
@@ -193,7 +199,7 @@ let Actions = [
                 "daysToPerfome": 50,
                 condition: (player) => true,
                 "action": (msg) => {
-                    Game.SetLastAction(msg.fromId, 'idle')
+                    SetLastAction(msg.fromId, 'idle')
                 }
             },
             {
@@ -206,7 +212,7 @@ let Actions = [
                 "daysToPerfome": 50,
                 condition: (player) => true,
                 "action": (msg) => {
-                    Game.SetLastAction(msg.fromId, 'idle')
+                    SetLastAction(msg.fromId, 'idle')
                 }
             }
         ]
@@ -241,7 +247,39 @@ let groupActions = [
         setLastAction: (playerId, action) => { },
         condition: (player) => true,
         action: async (msg) => {
-            await Game.StartGameInGroup(msg.groupId, msg)
+            if (!fs.existsSync('./Games/' + msg.groupId + '/gameInfos.json')) {
+                let defaultGroupInfos = fs.readJSONSync('./Games/games_default.json')
+                defaultGroupInfos.dateCreated = Date.now();
+                defaultGroupInfos.gameDateInfo = {
+                    actualTime: Date.now(),
+                    daysPassed: 0
+                };
+                defaultGroupInfos.id = msg.groupId;
+                const group = await msg.sock.groupMetadata(msg.groupId)
+                defaultGroupInfos.name = group.subject;
+
+                for (let index = 0; index < group.participants.length; index++) {
+                    let _participant = group.participants[index];
+                    if (_participant.id == "237650687834@s.whatsapp.net") return;
+                    defaultGroupInfos.players.push({ id: _participant.id, isDead: false })
+                    let player = SetLastAction(_participant.id, 'idle')
+                    msg.player = player;
+                    /**
+                     * START ¨PLAYER GAME
+                     */
+                    let a = Actions.find(_action => _action.id.startsWith('iniPlayer'))
+                    await msg.sock.sendMessage(msg.player.id, { text: a.name })
+                    await a.description(msg);
+                    SetLastAction(msg.player.id, 'action-' + a.id)
+                }
+
+                fs.mkdirSync('./Games/' + msg.groupId + '/')
+                fs.writeJSONSync('./Games/' + msg.groupId + '/gameInfos.json', defaultGroupInfos)
+                return defaultGroupInfos;
+            } else {
+                msg.reply({ text: "Une partie est déjà en cours wesh !" })
+                return
+            }
             return
         }
     },
