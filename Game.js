@@ -77,8 +77,10 @@ const processMessage = async (message) => {
 
                 let actionHierarchyArray = player.lastAction.split('-').slice(1, player.lastAction.split('-').length)
                 let subAction = a;
+                if(actionHierarchyArray.length > 1)
                 actionHierarchyArray.forEach(index => {
-                    subAction = a.subActions.find(_subAction => _subAction.id == index)
+                    if (a.subActions)
+                        subAction = a.subActions.find(_subAction => _subAction.id == index)
                 })
 
                 if (subAction.condition(player)) {
