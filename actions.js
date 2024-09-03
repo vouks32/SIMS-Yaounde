@@ -248,6 +248,7 @@ let groupActions = [
         condition: (player) => true,
         action: async (msg) => {
             if (!fs.existsSync('./Games/' + msg.groupId + '/gameInfos.json')) {
+                console.log("paartie doesn't exist in this group, creating one!")
                 let defaultGroupInfos = fs.readJSONSync('./Games/games_default.json')
                 defaultGroupInfos.dateCreated = Date.now();
                 defaultGroupInfos.gameDateInfo = {
@@ -277,6 +278,7 @@ let groupActions = [
                 fs.writeJSONSync('./Games/' + msg.groupId + '/gameInfos.json', defaultGroupInfos)
                 return defaultGroupInfos;
             } else {
+                console.log("paartie already exist in this group!")
                 msg.reply({ text: "Une partie est déjà en cours wesh !" })
                 return
             }

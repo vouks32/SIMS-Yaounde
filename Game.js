@@ -7,7 +7,7 @@ const { getDirectories, SetLastAction, checkPlayerInGroup, numberToEmoji, EmojiT
 
 const processMessage = async (message) => {
 
-
+    console.log('MESSAGE:', message)
 
 
     if (message.isFromGroup) {
@@ -18,6 +18,7 @@ const processMessage = async (message) => {
                 await groupActions.find(_action => _action.id.startsWith("!info")).action(message)
                 return;
             }
+            console.log("action trouvé")
             await a.action(message)
             return
         }
