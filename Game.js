@@ -69,30 +69,49 @@ const processMessage = async (message) => {
                 await message.reply({ text: "Je sais pas ce que tu viens d'envoyer...\nMais c'est pas une des options que je t'ai montré" })
                 await message.reply({
                     text: "Voici les trucs que tu peux faire, envoie just le chiffre de l'action que tu veux accomplir\n\n" +
-                        Actions.filter(_action => !_action.id.startsWith('!') && parseInt(_action.id) > 0 && _action.condition(player)).map(_action => "- *" + numberToEmoji(_action.id) + "* " + _action.name + "\n")
+                        Actions.filter(_action => !_action.id.startsWith('!') && parseInt(_action.id) > 0 && _action.condition(player)).map(_action => "*" + numberToEmoji(_action.id) + " " + _action.name + "*\n")
                 })
                 SetLastAction(player.id, 'action')
                 return;
             } else {
 
-                let actionHierarchyArray = player.lastAction.split('-').slice(1, player.lastAction.split('-').length)
+                let actionHierarchyArray = [];
+                actionHierarchyArray = actionHierarchyArray.concat(player.lastAction.split('-').slice(1, player.lastAction.split('-').length))
+                actionHierarchyArray.push(message.text)
                 let subAction = a;
-                if(actionHierarchyArray.length > 1)
-                actionHierarchyArray.forEach(index => {
-                    if (a.subActions)
-                        subAction = a.subActions.find(_subAction => _subAction.id == index)
-                })
+                let childActionWasFound = false;
+                if (actionHierarchyArray.length > 1)
+                    for (let i = 1; i < actionHierarchyArray.length; i++) {// i starts at 1 because i=0 is the parent action a, but we looking for children
+                        const index = actionHierarchyArray[i];
+                        if (a.subActions && a.subActions.find(_subAction => _subAction.id == index)) {
+                            console.log("subAction was found With index,", index)
+
+                            subAction = a.subActions.find(_subAction => _subAction.id == index)
+                            if (i == actionHierarchyArray.length - 1)
+                                childActionWasFound = true;
+
+                            continue;
+                        }
+                        break;
+                    }
 
                 if (subAction.condition(player)) {
                     message.subAction = subAction;
                     await subAction.action(message)
+                    console.log(actionHierarchyArray)
+
                     if (subAction.subActions) {
                         await message.reply({
                             text:
-                                "*" + subAction.name + "*\n" + subAction.description + "\n" +
-                                "" + subAction.subActions.map(_subAction => numberToEmoji(_subAction.id) + " " + _subAction.name)
+                                "*" + subAction.name + "*\n" + subAction.description + "\n\n" +
+                                "" + subAction.subActions.map(_subAction =>
+                                    numberToEmoji(_subAction.id) + " *" + _subAction.name + "*\n" +
+                                    (_subAction.prix ? "- Prix: *" + _subAction.prix + "Frs*\n" : "") +
+                                    (_subAction.dailyActionPoints ? "- Points d'action: *" + _subAction.dailyActionPoints + " Points*\n" : "") +
+                                    (_subAction.daysToPerfom ? "- Complète dans: *" + _subAction.daysToPerfom + " Jours*\n" : "")
+                                ).join('')
                         })
-                        SetLastAction(player.id, 'action-' + actionHierarchyArray.join('-') + message.text)
+                        SetLastAction(player.id, 'action-' + (childActionWasFound ? actionHierarchyArray.join('-') : actionHierarchyArray.slice(0, actionHierarchyArray.length - 1).join('')))
                     }
                 }
             }

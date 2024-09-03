@@ -188,7 +188,7 @@ let Actions = [
                 "Occupation": ["étudiant"],
                 "prix": 2000,
                 "dailyActionPoints": 2,
-                "daysToPerfome": 80,
+                "daysToPerfom": 80,
                 condition: (player) => true,
                 "action": (msg) => {
                     SetLastAction(msg.fromId, 'idle')
@@ -201,7 +201,7 @@ let Actions = [
                 "Occupation": ["étudiant"],
                 "prix": 1100,
                 "dailyActionPoints": 1,
-                "daysToPerfome": 50,
+                "daysToPerfom": 50,
                 condition: (player) => true,
                 "action": (msg) => {
                     SetLastAction(msg.fromId, 'idle')
@@ -214,7 +214,7 @@ let Actions = [
                 "Occupation": ["étudiant"],
                 "prix": 1600,
                 "dailyActionPoints": 2,
-                "daysToPerfome": 50,
+                "daysToPerfom": 50,
                 condition: (player) => true,
                 "action": (msg) => {
                     SetLastAction(msg.fromId, 'idle')
