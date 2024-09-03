@@ -98,6 +98,24 @@ const UpdatePlayerAttribute = (playerId, attribute, value) => {
     return playerInfos
 }
 
+const SetRandomPlayerAttributes = (playerId, oneAttribute = false) => {
+    if (!fs.existsSync('./Players/' + playerId + '/playerInfos.json')) {
+        return false;
+    }
+    let playerInfos = fs.readJSONSync('./Players/' + playerId + '/playerInfos.json')
+
+    playerInfos.money = (Math.random() * 10) > 5 ? parseInt(Math.random() * 1000) + 2000 : parseInt(Math.random() * 1000) + 1000
+    playerInfos.strength = Math.ceil(Math.random() * 7) + 3;
+    playerInfos.intelligence = Math.ceil(Math.random() * 7) + 3;
+    playerInfos.happiness = 5;
+    playerInfos.luck = Math.ceil(Math.random() * 7) + 3;
+    playerInfos.reputation = 1;
+    playerInfos.ego = Math.ceil(Math.random() * 7) + 3;
+
+    fs.writeJSONSync('./Players/' + playerId + '/playerInfos.json', playerInfos)
+    return playerInfos
+}
+
 
 
 module.exports = {
