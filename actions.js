@@ -259,9 +259,16 @@ let groupActions = [
                 const group = await msg.sock.groupMetadata(msg.groupId)
                 defaultGroupInfos.name = group.subject;
 
+                //msg.reply({text: ""})
+                fs.mkdirSync('./Games/' + msg.groupId + '/')
+                fs.writeJSONSync('./Games/' + msg.groupId + '/gameInfos.json', defaultGroupInfos)
+                console.log("group info gotten:", defaultGroupInfos)
+
                 for (let index = 0; index < group.participants.length; index++) {
                     let _participant = group.participants[index];
-                    if (_participant.id == "237650687834@s.whatsapp.net") return;
+                    if (_participant.id == "237650687834@s.whatsapp.net") continue;
+                    console.log("Player with ID:", _participant.id, "is being initialised")
+
                     defaultGroupInfos.players.push({ id: _participant.id, isDead: false })
                     let player = SetLastAction(_participant.id, 'idle')
                     msg.player = player;
@@ -274,7 +281,8 @@ let groupActions = [
                     SetLastAction(msg.player.id, 'action-' + a.id)
                 }
 
-                fs.mkdirSync('./Games/' + msg.groupId + '/')
+                console.log("All player initialised, group is Saved")
+                msg.reply({text: "*Lets Gooooooooo!*\nUne partie de SIMS Yaoundé a été lancé dans ce group🪄✨\nJ'ai envoyé un message en privé à chacun d'entre vous!"})
                 fs.writeJSONSync('./Games/' + msg.groupId + '/gameInfos.json', defaultGroupInfos)
                 return defaultGroupInfos;
             } else {
