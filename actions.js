@@ -17,7 +17,7 @@ let Actions = [
         name: "Pour en savoir plus sur moi",
         description: "",
         setLastAction: (playerId, action) => { SetLastAction(playerId, action) },
-        condition: (player) => true,
+        condition: (msg) => true,
         action: async (msg) => {
 
             await msg.reply({
@@ -34,7 +34,7 @@ let Actions = [
     {
         id: "!jouer",
         name: "Pour jouer à une partie de SIMS Yaoundé",
-        condition: (player) => true,
+        condition: (msg) => true,
         setLastAction: (playerId, action) => { SetLastAction(playerId, action) },
         description: "",
         action: async (msg) => {
@@ -76,7 +76,7 @@ let Actions = [
         description: () => getDirectories('./Games').map((groupId, index) => numberToEmoji(index + 1) + " " + fs.readJSONSync('./Games/' + groupId + '/gameInfos.json').name + "\n"),
         setLastAction: (playerId, action) => { SetLastAction(playerId, action) },
         conditionsToPerformAction: [],
-        condition: (player) => true,
+        condition: (msg) => true,
         action: async (msg) => {
             let choiceNumber = EmojiToNumber(msg.text);
             if (!getDirectories('./Games')[parseInt(choiceNumber) - 1]) {
@@ -96,7 +96,7 @@ let Actions = [
         },
         setLastAction: (playerId, action) => { SetLastAction(playerId, action) },
         conditionsToPerformAction: [],
-        condition: (player) => player.isDead,
+        condition: (msg) => msg.player.isDead,
         action: async (msg) => {
             let media = await msg.downloadImage('Players/' + msg.player.id + '/', 'profil.jpg')
             let name = media.caption.split(',')[0];
@@ -184,7 +184,7 @@ let Actions = [
                 "prix": 1500,
                 "dailyActionPoints": 2,
                 "daysToPerfom": 70,
-                condition: (player) => true,
+                condition: (msg) => true,
                 "action": (msg) => {
                     SetLastAction(msg.fromId, 'idle')
                 }
@@ -197,7 +197,7 @@ let Actions = [
                 "prix": 1500,
                 "dailyActionPoints": 2,
                 "daysToPerfom": 70,
-                condition: (player) => true,
+                condition: (msg) => true,
                 "action": (msg) => {
                     SetLastAction(msg.fromId, 'idle')
                 }
@@ -210,7 +210,7 @@ let Actions = [
                 "prix": 2000,
                 "dailyActionPoints": 2,
                 "daysToPerfom": 80,
-                condition: (player) => true,
+                condition: (msg) => true,
                 "action": (msg) => {
                     SetLastAction(msg.fromId, 'idle')
                 }
@@ -223,7 +223,7 @@ let Actions = [
                 "prix": 1100,
                 "dailyActionPoints": 1,
                 "daysToPerfom": 50,
-                condition: (player) => true,
+                condition: (msg) => true,
                 "action": (msg) => {
                     SetLastAction(msg.fromId, 'idle')
                 }
@@ -236,7 +236,7 @@ let Actions = [
                 "prix": 1600,
                 "dailyActionPoints": 2,
                 "daysToPerfom": 50,
-                condition: (player) => true,
+                condition: (msg) => true,
                 "action": (msg) => {
                     SetLastAction(msg.fromId, 'idle')
                 }
@@ -252,7 +252,7 @@ let groupActions = [
         name: "Pour en savoir plus sur moi",
         description: "",
         setLastAction: (playerId, action) => { },
-        condition: (player) => true,
+        condition: (msg) => true,
         action: async (msg) => {
 
             await msg.reply({
@@ -271,7 +271,7 @@ let groupActions = [
         name: "Pour Lancer une partie dans ce group",
         description: "",
         setLastAction: (playerId, action) => { },
-        condition: (player) => true,
+        condition: (msg) => true,
         action: async (msg) => {
             if (!fs.existsSync('./Games/' + msg.groupId + '/gameInfos.json')) {
                 console.log("paartie doesn't exist in this group, creating one!")
