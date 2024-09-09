@@ -54,7 +54,7 @@ const processMessage = async (message) => {
             } else {
                 await message.reply({
                     text: "Voici les trucs que tu peux faire, envoie just le chiffre de l'action que tu veux accomplir\n\n" +
-                        Actions.filter(_action => !_action.id.startsWith('!') && parseInt(_action.id) > 0 && _action.condition(msg)).map(_action => "- *" + numberToEmoji(_action.id) + "* " + _action.name + "\n")
+                        Actions.filter(_action => !_action.id.startsWith('!') && parseInt(_action.id) > 0 && _action.condition(message)).map(_action => "- *" + numberToEmoji(_action.id) + "* " + _action.name + "\n")
                 })
                 if (parseInt(Math.random() * 100) < 6)
                     await message.reply({ text: "Oublie pas que je peux faire plein de truc, pour savoir quoi, envoie *!info*" })
@@ -64,12 +64,12 @@ const processMessage = async (message) => {
 
             let parentActionIndex = player.lastAction.split('-')[1] || message.text;
 
-            let a = Actions.find(action => action.id == parentActionIndex && action.condition(msg))
+            let a = Actions.find(action => action.id == parentActionIndex && action.condition(message))
             if (!a) {
                 await message.reply({ text: "Je sais pas ce que tu viens d'envoyer...\nMais c'est pas une des options que je t'ai montré" })
                 await message.reply({
                     text: "Voici les trucs que tu peux faire, envoie just le chiffre de l'action que tu veux accomplir\n\n" +
-                        Actions.filter(_action => !_action.id.startsWith('!') && parseInt(_action.id) > 0 && _action.condition(msg)).map(_action => "*" + numberToEmoji(_action.id) + " " + _action.name + "*\n")
+                        Actions.filter(_action => !_action.id.startsWith('!') && parseInt(_action.id) > 0 && _action.condition(message)).map(_action => "*" + numberToEmoji(_action.id) + " " + _action.name + "*\n")
                 })
                 SetLastAction(player.id, 'action')
                 return;
@@ -95,7 +95,7 @@ const processMessage = async (message) => {
                         break;
                     }
 
-                if (subAction.condition(msg)) {
+                if (subAction.condition(message)) {
                     message.subAction = subAction;
                     await subAction.action(message)
                     console.log(actionHierarchyArray)
