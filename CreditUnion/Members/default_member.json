@@ -1,0 +1,18 @@
+{
+    "id": "",
+    "name": "",
+    "bank": {
+        "solde": 0,
+        "tontine": 0,
+        "transactions": [{
+            "date" : 0,
+            "amount" : 0
+        }]
+    },
+    "pret": [{
+        "date_taken": 0,
+        "date_to_give": 0,
+        "amount": 0,
+        "valid": false
+    }]
+}

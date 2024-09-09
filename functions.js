@@ -5,6 +5,18 @@ function getDirectories(source) {
 }
 
 
+const GetPlayerGroup = (playerId) => {
+    let path = getDirectories('./Games');
+    if (path.length == 0) {
+        return null
+    }
+    let groupInfos = null;
+    path.forEach(groupId => {
+        if (checkPlayerInGroup(playerId, groupId).isPlayer)
+            groupInfos = checkPlayerInGroup(playerId, groupId).groupInfos
+    })
+    return groupInfos
+}
 
 const checkPlayerInGroup = (playerId, groupId) => {
     let groupInfos = fs.readJSONSync('./Games/' + groupId + '/gameInfos.json')
@@ -104,7 +116,7 @@ const SetRandomPlayerAttributes = (playerId, oneAttribute = false) => {
     }
     let playerInfos = fs.readJSONSync('./Players/' + playerId + '/playerInfos.json')
 
-    playerInfos.money = (Math.random() * 10) > 5 ? parseInt(Math.random() * 1000) + 2000 : parseInt(Math.random() * 1000) + 1000
+    playerInfos.bank.money = (Math.random() * 10) > 5 ? parseInt(Math.random() * 1000) + 2000 : parseInt(Math.random() * 1000) + 1000
     playerInfos.strength = Math.ceil(Math.random() * 7) + 3;
     playerInfos.intelligence = Math.ceil(Math.random() * 7) + 3;
     playerInfos.happiness = 5;
@@ -116,6 +128,9 @@ const SetRandomPlayerAttributes = (playerId, oneAttribute = false) => {
     return playerInfos
 }
 
+const AddActionToBePerformed = (action) => {
+
+}
 
 
 module.exports = {
@@ -125,5 +140,7 @@ module.exports = {
     UpdatePlayerAttribute,
     checkPlayerInGroup,
     checkPlayer,
-    getDirectories
+    getDirectories,
+    SetRandomPlayerAttributes,
+    AddActionToBePerformed
 }

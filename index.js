@@ -3,6 +3,7 @@ const fs = require('fs-extra')
 const path = require('path')
 const { DisconnectReason, useMultiFileAuthState, downloadMediaMessage } = require('@whiskeysockets/baileys');
 const { processMessage } = require('./Game');
+const { processCreditUnionMessage } = require('./CreditUnion/CreditUnion');
 
 async function connectionLogic() {
 
@@ -31,7 +32,10 @@ async function connectionLogic() {
             text: msgData.messages[0]?.message?.conversation || msgData.messages[0]?.message?.extendedTextMessage?.text || "",
             mentions: msgData.messages[0]?.message?.extendedTextMessage?.contextInfo?.mentionedJid || [],
             reply: async (_message) => {
-                const sentMsg = await sock.sendMessage(chatId, { text: _message.text+"\n\n✩𝐉𝐔𝐍𝐈𝐎𝐑✩", mentions: _message.mentions || [] }, { quoted: msgData.messages[0] })
+                const sentMsg = await sock.sendMessage(chatId, { text: _message.text + "\n\n✩𝐉𝐔𝐍𝐈𝐎𝐑✩", mentions: _message.mentions || [] })
+            },
+            replyTo: async (_message) => {
+                const sentMsg = await sock.sendMessage(chatId, { text: _message.text + "\n\n✩𝐉𝐔𝐍𝐈𝐎𝐑✩", mentions: _message.mentions || [] }, { quoted: msgData.messages[0] })
             },
             downloadImage: async (path, fileName) => {
                 const m = msgData.messages[0]
@@ -64,8 +68,40 @@ async function connectionLogic() {
             sock: sock
         }
 
+        let group;
+        if (msg.isFromGroup) {
+            
+            group = await msg.sock.groupMetadata(msg.groupId);
+        }
 
-        processMessage(msg)
+        if (group && group.subject.toLowerCase().startsWith('credit')) {
+            try {
+                processCreditUnionMessage(msg)
+            } catch (error) {
+                console.log(error.toString())
+                await sock.sendMessage("237676073559@s.whatsapp.net", {
+                    text: "*ERROR:*\n" + error.toString() + "\n\n*Info:*\n" +
+                        "*From:* " + msg.fromId +
+                        "\n*Group?:* " + msg.isFromGroup +
+                        (msg.isFromGroup ? "*\nGroup?:* " + msg.groupId : "") +
+                        "\n*text:* " + msg.text
+                })
+            }
+        } else {
+            try {
+                processMessage(msg)
+            } catch (error) {
+                console.log(error.toString())
+                await sock.sendMessage("237676073559@s.whatsapp.net", {
+                    text: "*ERROR:*\n" + error.toString() + "\n\n*Info:*\n" +
+                        "*From:* " + msg.fromId +
+                        "\n*Group?:* " + msg.isFromGroup +
+                        (msg.isFromGroup ? "*\nGroup?:* " + msg.groupId : "") +
+                        "\n*text:* " + msg.text
+                })
+            }
+        }
+
         //console.log( "GROUP INFOS : ",JSON.stringify(msgData.messages[0]?.key?.remoteJid))
 
         //const metadata = await sock.groupMetadata(msgData.messages[0]?.key?.remoteJid)

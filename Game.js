@@ -112,6 +112,9 @@ const processMessage = async (message) => {
                                 ).join('')
                         })
                         SetLastAction(player.id, 'action-' + (childActionWasFound ? actionHierarchyArray.join('-') : actionHierarchyArray.slice(0, actionHierarchyArray.length - 1).join('')))
+                    }else{
+                        SetLastAction(player.id, 'idle')
+
                     }
                 }
             }

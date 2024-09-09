@@ -1,7 +1,15 @@
-const { getDirectories, SetLastAction, checkPlayerInGroup, checkPlayer, numberToEmoji, EmojiToNumber, UpdatePlayerAttribute } = require('./functions.js')
+const { getDirectories, SetLastAction, checkPlayerInGroup, checkPlayer, AddActionToBePerformed, numberToEmoji, EmojiToNumber, UpdatePlayerAttribute, SetRandomPlayerAttributes } = require('./functions.js')
 
 const fs = require('fs-extra')
 
+let ActionToBePerform = {
+    initiator: "", //PlayerId
+    playersInvolved: [], //PlayerId
+    chanceToOccur: 100, //Chances that the action succeeds
+    reasonForFailure: [], //different reasons to give as to why the action failed
+    dateToBePerform: 0, //the day when to perform in Game day
+    action: () => { }
+}
 
 let Actions = [
     {
@@ -96,11 +104,8 @@ let Actions = [
             UpdatePlayerAttribute(msg.player.id, "name", name)
             UpdatePlayerAttribute(msg.player.id, "sex", sex.startsWith('f') ? 'F' : 'M')
             UpdatePlayerAttribute(msg.player.id, "isDead", false)
-            /**
-             * 
-             * 
-             */
-            let player =  SetLastAction(msg.player.id, 'action')
+            SetRandomPlayerAttributes(msg.player.id)
+            let player = SetLastAction(msg.player.id, 'action')
 
             await msg.reply({ text: 'Félicitation!\nVous Jouez maintenant à SIMS Yaoundé sous le pseudonyme *' + name + '*\n' })
             await msg.reply({
@@ -116,7 +121,12 @@ let Actions = [
         name: "Faire L'école",
         description: "Dans quel domaine souhaitez vous obtenir un diplome?",
         conditionsToPerformAction: [],
-        condition: (player) => true,
+        condition: (msg) => {
+            if (msg.player.occupations.find(val => val == "étudiant"))
+                return true
+            else
+                return false
+        },
         action: async (msg) => {
             let choiceNumber = EmojiToNumber(msg.text);
         },
@@ -124,16 +134,15 @@ let Actions = [
             {
                 "id": "1",
                 "name": "École de médécine",
-                "skill": ["Docteur"],
-                "Occupation": ["étudiant"],
+                "skills": ["Docteur"],
+                "occupations": ["étudiant"],
                 "prix": 2000,
                 "dailyActionPoints": 3,
                 "daysToPerfom": 100,
-                condition: (player) => true,
-                "action": (msg) => {
-                    if (msg.subAction.prix && msg.subAction.prix >= msg.player.money) {
+                condition: (msg) => {
+                    if (msg.subAction.prix && msg.subAction.prix >= msg.player.bank.money) {
                         msg.reply({ text: "😂 T'es fauché! t'as pas assez d'argent pour ça!\n\nChoisi une autre école ou envoie *!annuler* pour annuler l'action" })
-                        return
+                        return false;
                     }
                     let actionPointsLeft = 5;
                     for (const _occup in msg.player.occupations) {
@@ -141,25 +150,37 @@ let Actions = [
                     }
                     if (msg.subAction.dailyActionPoints && msg.subAction.dailyActionPoints > actionPointsLeft) {
                         msg.reply({ text: "Tu peux pas prendre cette action car elle sera de trop sur ton planning déjà chargé\nTu as *" + actionPointsLeft + " temps libres restant* mais cette action demande d'en avoir *" + msg.subAction.dailyActionPoints + "*\n\nChoisi une autre école ou envoie *!annuler* pour annuler l'action" })
-                        return
+                        return false
                     }
+                    return true
+                },
+                "action": (msg) => {
+
                     msg.reply({ text: "Félicitaion!🥳\nTu as rejoins l'université!\nTu recevra ton diplome dans *" + msg.subAction.daysToPerfom + "* Jours si tout ce passe bien\n¯\_( ͡° ͜ʖ ͡°)_/¯\n\nForce à toi" })
 
-                    /** save future actions
-                     * 
-                     * 
-                     * 
-                     * 
-                     * 
-                     */
-                    SetLastAction(msg.fromId, 'idle')
+                    // 
+                    let player = msg.player;
+                    player.occupations.concat(msg.subAction.occupations.map(_occup => { return { "occupation": _occup, "points": msg.subAction.dailyActionPoints, "skills": msg.subAction.skills, "endDate": GetPlayerGroup(msg.player.id).gameDateInfo.daysPassed + msg.subAction.daysToPerfom } }))
+                    player.happiness -= player.occupations.length;
+                    UpdatePlayerAttribute(player.id, "occupations", player.occupations)
+                    UpdatePlayerAttribute(player.id, "happiness", player.happiness)
+                    msg.reply({ text: "Tu as reçu *-"+player.occupations.length+"* points de bonheur" })
+
+                    // DETERMINE FUTURE ACTION TO BE PERFORM
+                    let _action = { ...ActionToBePerform };
+                    _action.dateToBePerform = GetPlayerGroup(msg.player.id).gameDateInfo.daysPassed + msg.subAction.daysToPerfom;
+                    _action.initiator = msg.player.id
+                    _action.action = (_Game, _action) => {
+                        let player = checkPlayer(_action.initiator)
+                        _Game.UpdatePlayerAttribute(_action.initiator, "name", name)
+                    }
                 }
             },
             {
                 "id": "2",
                 "name": "École d'ingénierie",
                 "skill": ["Ingénieur"],
-                "Occupation": ["étudiant"],
+                "occupations": ["étudiant"],
                 "prix": 1500,
                 "dailyActionPoints": 2,
                 "daysToPerfom": 70,
@@ -172,7 +193,7 @@ let Actions = [
                 "id": "3",
                 "name": "École de Commerce",
                 "skill": ["Manager"],
-                "Occupation": ["étudiant"],
+                "occupations": ["étudiant"],
                 "prix": 1500,
                 "dailyActionPoints": 2,
                 "daysToPerfom": 70,
@@ -185,7 +206,7 @@ let Actions = [
                 "id": "4",
                 "name": "École d'informatique",
                 "skill": ["Développeur"],
-                "Occupation": ["étudiant"],
+                "occupations": ["étudiant"],
                 "prix": 2000,
                 "dailyActionPoints": 2,
                 "daysToPerfom": 80,
@@ -198,7 +219,7 @@ let Actions = [
                 "id": "5",
                 "name": "École des beaux-arts",
                 "skill": ["Artiste"],
-                "Occupation": ["étudiant"],
+                "occupations": ["étudiant"],
                 "prix": 1100,
                 "dailyActionPoints": 1,
                 "daysToPerfom": 50,
@@ -211,7 +232,7 @@ let Actions = [
                 "id": "6",
                 "name": "École des media et de la communication",
                 "skill": ["journaliste"],
-                "Occupation": ["étudiant"],
+                "occupations": ["étudiant"],
                 "prix": 1600,
                 "dailyActionPoints": 2,
                 "daysToPerfom": 50,
