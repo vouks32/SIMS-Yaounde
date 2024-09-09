@@ -32,10 +32,10 @@ async function connectionLogic() {
             text: msgData.messages[0]?.message?.conversation || msgData.messages[0]?.message?.extendedTextMessage?.text || "",
             mentions: msgData.messages[0]?.message?.extendedTextMessage?.contextInfo?.mentionedJid || [],
             reply: async (_message) => {
-                const sentMsg = await sock.sendMessage(chatId, { text: _message.text + "\n\n✩𝐉𝐔𝐍𝐈𝐎𝐑✩", mentions: _message.mentions || [] })
+                const sentMsg = await sock.sendMessage(chatId, { text: _message.text + "\n\n✩𝑽𝒐𝒖𝒌𝒔 𝒃𝒐𝒕✩", mentions: _message.mentions || [] })
             },
             replyTo: async (_message) => {
-                const sentMsg = await sock.sendMessage(chatId, { text: _message.text + "\n\n✩𝐉𝐔𝐍𝐈𝐎𝐑✩", mentions: _message.mentions || [] }, { quoted: msgData.messages[0] })
+                const sentMsg = await sock.sendMessage(chatId, { text: _message.text + "\n\n✩𝑽𝒐𝒖𝒌𝒔 𝒃𝒐𝒕✩", mentions: _message.mentions || [] }, { quoted: msgData.messages[0] })
             },
             downloadImage: async (path, fileName) => {
                 const m = msgData.messages[0]
@@ -70,7 +70,7 @@ async function connectionLogic() {
 
         let group;
         if (msg.isFromGroup) {
-            
+
             group = await msg.sock.groupMetadata(msg.groupId);
         }
 

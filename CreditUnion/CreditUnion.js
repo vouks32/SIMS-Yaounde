@@ -19,10 +19,10 @@ const Actions = [
             let player = msg.player;
             msg.replyTo({
                 text: "*Vos Informations*\n" +
-                    "- *Solde:* " + player.bank.solde + "\n" +
-                    "- *Tontine(cette semaine):* " + player.bank.tontine + "\n\n" +
+                    "- Solde: *" + player.bank.solde + " Frs*\n" +
+                    "- Tontine(cette semaine): *" + player.bank.tontine + " Frs*\n\n" +
                     "*5 Dernières transactions:*\n " + player.bank.transactions.map(_trans => {
-                        return "- " + _trans.amount + "(" + FormatDate(_trans.date) + ")"
+                        return "- *" + _trans.amount + " Frs* (" + FormatDate(_trans.date) + ")"
                     }).join('\n')
             })
         }
