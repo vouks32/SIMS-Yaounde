@@ -33,7 +33,7 @@ const Actions = [
 const GetPlayer = (memberId) => {
 
     if (!fs.existsSync('./Members/' + memberId + '/memberInfos.json')) {
-        let defaultMemberInfos = fs.readJSONSync('./Members/default_members.json')
+        let defaultMemberInfos = fs.readJSONSync('./Members/default_member.json')
         defaultMemberInfos.id = memberId;
         fs.mkdirSync('./Members/' + memberId + '/')
         fs.writeJSONSync('./Members/' + memberId + '/memberInfos.json', defaultMemberInfos)
