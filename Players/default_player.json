@@ -1,0 +1,23 @@
+{
+    "id": "",
+    "name": "",
+    "sex": "",
+    "strength": 0,
+    "intelligence": 0,
+    "happiness": 0,
+    "luck": 0,
+    "reputation": 0,
+    "ego": 0,
+    "phoneNumber": 0,
+    "isDead": true,
+    "isPublic": true,
+    "relationShips": [],
+    "skills": [],
+    "occupations": [],
+    "assets": [],
+    "bank": {
+        "money": 0,
+        "transactions": []
+    },
+    "lastAction" : ""
+}
