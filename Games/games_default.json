@@ -3,8 +3,14 @@
     "name": "",
     "dateCreated": "",
     "gameDateInfo": {
-        "actualTime": "",
-        "daysPassed": ""
+        "actualTime": 0,
+        "daysPassed": 0,
+        "period": "day",
+        "month": 1,
+        "year": 2010,
+        "day": 1,
+        "strindDate": ""
+
     },
     "players": [
         

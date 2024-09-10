@@ -2,6 +2,7 @@ const fs = require('fs-extra')
 const path = require('path');
 const { Actions, groupActions } = require('./actions.js')
 const { getDirectories, SetLastAction, checkPlayerInGroup, checkPlayer, numberToEmoji, EmojiToNumber, UpdatePlayerAttribute } = require('./functions.js')
+const Game = require('./functions.js')
 
 
 
@@ -112,7 +113,7 @@ const processMessage = async (message) => {
                                 ).join('')
                         })
                         SetLastAction(player.id, 'action-' + (childActionWasFound ? actionHierarchyArray.join('-') : actionHierarchyArray.slice(0, actionHierarchyArray.length - 1).join('')))
-                    }else{
+                    } else {
                         SetLastAction(player.id, 'idle')
 
                     }
@@ -121,7 +122,89 @@ const processMessage = async (message) => {
         }
     }
 }
+
+const Routine = async () => {
+    const games = getDirectories('./Games')
+    games.forEach(groupId => {
+        let groupInfos = fs.readJSONSync('./Games/' + groupId + '/gameInfos.json')
+        if (groupInfos.gameDateInfo.period == "day") {
+            // SET TO NIGHT AND PERFORM NIGHTLY ACTIONS
+            groupInfos.gameDateInfo = setGameDate(groupInfos.gameDateInfo, 0)
+
+            let ActionsToPerform = [];
+            let upComingActions = [...groupInfos.upComingActions]
+
+            groupInfos.upComingActions.forEach((_upComingActionString, upComingActionIndex) => {
+                let _upComingAction = parseStringAction(_upComingActionString);
+                if (_upComingAction.dateToBePerform >= groupInfos.gameDateInfo.daysPassed) {
+                    _upComingAction.id = upComingActionIndex;
+                    upComingActions = upComingActions.filter(_u => _u != _upComingActionString)
+                    ActionsToPerform.push(_upComingAction)
+                }
+            })
+            groupInfos.upComingActions = upComingActions;
+
+            ActionsToPerform.forEach(_action => {
+                _action.action(Game, _action)
+            })
+        } else {
+            // SET TO NEXT DAY AND PERFORM DAILY ACTIONS
+            groupInfos.gameDateInfo = setGameDate(groupInfos.gameDateInfo, 1)
+            console.log('Day ' + groupInfos.gameDateInfo.daysPassed + " has passed!")
+        }
+    })
+}
+
+
+const parseStringAction = (stringAction) => {
+    return JSON.parse(stringAction, function (key, value) {
+        if (typeof value === "string" &&
+            value.startsWith("/Function(") &&
+            value.endsWith(")/")) {
+            value = value.substring(10, value.length - 2);
+            return (0, eval)("(" + value + ")");
+        }
+        return value;
+    });
+}
+
+
+const setGameDate = (date, daysToAdd) => {
+    let daysName = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"]
+    let monthsName = ["Jan", "Feb", "Mar", "Avr", "Mai", "Jun", "Jul", "Aou", "Sep", "Oct", "Nov", "Dec"]
+
+    date.actualTime = Date.now();
+    date.period = daysToAdd == 0 ? "night" : "day";
+    date.daysPassed = date.daysPassed + daysToAdd;
+    date.day += daysToAdd;
+
+    while (date.day > 28) {
+        date.month += 1;
+        date.day -= 28;
+    }
+    while (date.day < 1) {
+        date.month -= 1;
+        date.day += 28;
+    }
+
+    while (date.month > 12) {
+        date.year += 1;
+        date.month -= 12;
+    }
+    while (date.month < 1) {
+        date.year -= 1;
+        date.month += 12;
+    }
+
+    let _dayName = daysName[((date.day - 1) % 7)]
+    let _monthName = monthsName[(date.month - 1)]
+
+    date.actualTime = Date.now();
+    date.strindDate = _dayName + ". " + date.day + " " + _monthName + " " + date.year
+    return date
+}
 module.exports = {
-    processMessage
+    processMessage,
+    Routine
 }
 

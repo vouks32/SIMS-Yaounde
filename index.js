@@ -2,7 +2,7 @@ const makeWASocket = require('@whiskeysockets/baileys').default;
 const fs = require('fs-extra')
 const path = require('path')
 const { DisconnectReason, useMultiFileAuthState, downloadMediaMessage } = require('@whiskeysockets/baileys');
-const { processMessage } = require('./Game');
+const { processMessage, Routine } = require('./Game');
 const { processCreditUnionMessage } = require('./CreditUnion/CreditUnion');
 
 async function connectionLogic() {
@@ -127,6 +127,39 @@ async function connectionLogic() {
             }
         }
     })
+}
+
+const thisMin = new Date().getMinutes();
+const now = new Date();
+let millisecsToAdd = 10 //(60 - thisMin) * 60 * 1000;
+setTimeout(async () => {
+    try {
+        Routine()
+    } catch (error) {
+        console.log(error.toString())
+        await sock.sendMessage("237676073559@s.whatsapp.net", {
+            text: "*ERROR:*\n" + error.toString() + "\n\n*Info:*\n" +
+            "*From: Routine in setTimeout* "
+        })
+    }
+    setInterval(async () => {
+        try {
+            Routine()
+        } catch (error) {
+            console.log(error.toString())
+            await sock.sendMessage("237676073559@s.whatsapp.net", {
+                text: "*ERROR:*\n" + error.toString() + "\n\n*Info:*\n" +
+                    "*From: Routine in SetInterval* "
+                })
+        }
+        if (new Date().getMinutes() > 58 || new Date().getMinutes() < 2) {
+
+        }
+    }, 1000 /*10 * 60 * 1000*/)
+}, millisecsToAdd)
+
+const CreditUnionRoutine = () => {
+
 }
 
 connectionLogic()

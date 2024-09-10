@@ -1,4 +1,4 @@
-const { getDirectories, SetLastAction, checkPlayerInGroup, checkPlayer, AddActionToBePerformed, numberToEmoji, EmojiToNumber, UpdatePlayerAttribute, SetRandomPlayerAttributes } = require('./functions.js')
+const { getDirectories, SetLastAction, checkPlayerInGroup, checkPlayer, AddActionToBePerformed, numberToEmoji, EmojiToNumber, UpdatePlayerAttribute, SetRandomPlayerAttributes, makeTransaction } = require('./functions.js')
 
 const fs = require('fs-extra')
 
@@ -122,7 +122,7 @@ let Actions = [
         description: "Dans quel domaine souhaitez vous obtenir un diplome?",
         conditionsToPerformAction: [],
         condition: (msg) => {
-            if (msg.player.occupations.find(val => val == "étudiant"))
+            if (!msg.player.occupations.find(val => val == "étudiant"))
                 return true
             else
                 return false
@@ -160,20 +160,38 @@ let Actions = [
 
                     // 
                     let player = msg.player;
+                    player = makeTransaction(msg, {
+                        amount: msg.subAction.prix,
+                        type: "out",
+                        to_from_id: 'game',
+                        to_from_name: msg.subAction.name
+                    })
                     player.occupations.concat(msg.subAction.occupations.map(_occup => { return { "occupation": _occup, "points": msg.subAction.dailyActionPoints, "skills": msg.subAction.skills, "endDate": GetPlayerGroup(msg.player.id).gameDateInfo.daysPassed + msg.subAction.daysToPerfom } }))
                     player.happiness -= player.occupations.length;
+
                     UpdatePlayerAttribute(player.id, "occupations", player.occupations)
                     UpdatePlayerAttribute(player.id, "happiness", player.happiness)
-                    msg.reply({ text: "Tu as reçu *-"+player.occupations.length+"* points de bonheur" })
+                    msg.reply({ text: "Tu as reçu *-" + player.occupations.length + "* points de bonheur" })
 
                     // DETERMINE FUTURE ACTION TO BE PERFORM
-                    let _action = { ...ActionToBePerform };
-                    _action.dateToBePerform = GetPlayerGroup(msg.player.id).gameDateInfo.daysPassed + msg.subAction.daysToPerfom;
-                    _action.initiator = msg.player.id
-                    _action.action = (_Game, _action) => {
-                        let player = checkPlayer(_action.initiator)
-                        _Game.UpdatePlayerAttribute(_action.initiator, "name", name)
+                    let _actionToBePerform = { ...ActionToBePerform };
+                    _actionToBePerform.dateToBePerform = GetPlayerGroup(msg.player.id).gameDateInfo.daysPassed + msg.subAction.daysToPerfom;
+                    _actionToBePerform.initiator = msg.player.id
+                    _actionToBePerform.actionPerformed = msg.subAction
+                    _actionToBePerform.action = async (_Game, _action) => {
+                        let player = _Game.checkPlayer(_action.initiator)
+                        player.occupations = player.occupations.filter(_occup => !_action.actionPerformed.occupations.includes(_occup.occupation))
+                        player = _Game.UpdatePlayerAttribute(_action.initiator, "occupations", player.occupations)
+                        player = _Game.UpdatePlayerAttribute(_action.initiator, "happiness", player.occupations.length + player.happiness)
+                        player.skills.concat(_action.actionPerformed.skills.map(_skill => { return { "skill": _skill, "level": 1 } }))
+                        player = _Game.UpdatePlayerAttribute(_action.initiator, "skills", player.skills)
+                        await _Game.sendMessage(_action.initiator, {
+                            text: "*Diplome Obtenu!🎉*\nVous avez enfin terminé l'école, vous avez désormais comme capacité(s) *" + _action.actionPerformed.skills.join(',') + "*\n" +
+                                "Vous pouvez désormais chercher des Jobs avec cette(ces) capacité(s)"
+                        })
                     }
+
+                    AddActionToBePerformed(msg.player.id, _actionToBePerform)
                 }
             },
             {

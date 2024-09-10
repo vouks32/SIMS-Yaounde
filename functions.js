@@ -110,6 +110,29 @@ const UpdatePlayerAttribute = (playerId, attribute, value) => {
     return playerInfos
 }
 
+const makeTransaction = (msg, transaction) => {
+    if (!fs.existsSync('./Players/' + msg.player.id + '/playerInfos.json')) {
+        return false;
+    }
+    let playerInfos = fs.readJSONSync('./Players/' + msg.player.id + '/playerInfos.json')
+    let receiver = null;
+    if (transaction.to_from_id.includes('@')) {
+        receiver = fs.readJSONSync('./Players/' + transaction.to_from_id + '/playerInfos.json')
+        transaction.to_from_name = receiver.name
+    }
+
+    playerInfos.bank.money += transaction.type == "out" ? -transaction.amount : transaction.amount;
+    playerInfos.bank.transactions.push(transaction);
+    msg.reply({
+        text: "*Transaction Effectué*\n\n" +
+            (transaction.type == "out" ?
+                "Vous avez payé *" + transaction.amount + " Frs* à *" + transaction.to_from_name : "Vous avez reçu *" + transaction.amount + " Frs* de *" + transaction.to_from_id)
+            + "*\n\nSolde: *" + playerInfos.bank.money + " Frs*"
+    })
+    fs.writeJSONSync('./Players/' + msg.player.id + '/playerInfos.json', playerInfos)
+    return playerInfos
+}
+
 const SetRandomPlayerAttributes = (playerId, oneAttribute = false) => {
     if (!fs.existsSync('./Players/' + playerId + '/playerInfos.json')) {
         return false;
@@ -128,8 +151,16 @@ const SetRandomPlayerAttributes = (playerId, oneAttribute = false) => {
     return playerInfos
 }
 
-const AddActionToBePerformed = (action) => {
-
+const AddActionToBePerformed = (playerId, _actionToBePerform) => {
+    let groupInfos = GetPlayerGroup(playerId)
+    let stringAction = JSON.stringify(_actionToBePerform, function (key, value) {
+        if (typeof value === "function") {
+            return "/Function(" + value.toString() + ")/";
+        }
+        return value;
+    });
+    groupInfos.upComingActions.push(stringAction);
+    fs.writeJSONSync('./Games/' + groupInfos.id + '/gameInfos.json', groupInfos)
 }
 
 
@@ -142,5 +173,7 @@ module.exports = {
     checkPlayer,
     getDirectories,
     SetRandomPlayerAttributes,
-    AddActionToBePerformed
+    AddActionToBePerformed,
+    makeTransaction,
+    GetPlayerGroup
 }
