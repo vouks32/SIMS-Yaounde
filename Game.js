@@ -156,7 +156,7 @@ const Routine = async () => {
             console.log('Day ' + groupInfos.gameDateInfo.daysPassed + " has passed!")
         }
 
-        fs.writeJSONSync('./Games/' + msg.groupId + '/gameInfos.json', groupInfos)
+        fs.writeJSONSync('./Games/' + groupInfos.id + '/gameInfos.json', groupInfos)
     }
 }
 
