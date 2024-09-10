@@ -79,7 +79,7 @@ const processMessage = async (message) => {
                 let actionHierarchyArray = [];
                 actionHierarchyArray = actionHierarchyArray.concat(player.lastAction.split('-').slice(1, player.lastAction.split('-').length))
                 actionHierarchyArray.push(message.text)
-                let subAction = a;
+                message.subAction = a;
                 let childActionWasFound = false;
                 if (actionHierarchyArray.length > 1)
                     for (let i = 1; i < actionHierarchyArray.length; i++) {// i starts at 1 because i=0 is the parent action a, but we looking for children
@@ -87,7 +87,7 @@ const processMessage = async (message) => {
                         if (a.subActions && a.subActions.find(_subAction => _subAction.id == index)) {
                             console.log("subAction was found With index,", index)
 
-                            subAction = a.subActions.find(_subAction => _subAction.id == index)
+                            message.subAction = a.subActions.find(_subAction => _subAction.id == index)
                             if (i == actionHierarchyArray.length - 1)
                                 childActionWasFound = true;
 
@@ -96,16 +96,15 @@ const processMessage = async (message) => {
                         break;
                     }
 
-                if (subAction.condition(message)) {
-                    message.subAction = subAction;
-                    await subAction.action(message)
+                if (message.subAction.condition(message)) {
+                    await message.subAction.action(message)
                     console.log(actionHierarchyArray)
 
-                    if (subAction.subActions) {
+                    if (message.subAction.subActions) {
                         await message.reply({
                             text:
-                                "*" + subAction.name + "*\n" + subAction.description + "\n\n" +
-                                "" + subAction.subActions.map(_subAction =>
+                                "*" + message.subAction.name + "*\n" + message.subAction.description + "\n\n" +
+                                "" + message.subAction.subActions.map(_subAction =>
                                     numberToEmoji(_subAction.id) + " *" + _subAction.name + "*\n" +
                                     (_subAction.prix ? "- Prix: *" + _subAction.prix + "Frs*\n" : "") +
                                     (_subAction.dailyActionPoints ? "- Points d'action: *" + _subAction.dailyActionPoints + " Points*\n" : "") +
