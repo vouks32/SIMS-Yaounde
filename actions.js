@@ -1,4 +1,14 @@
-const { getDirectories, SetLastAction, checkPlayerInGroup, checkPlayer, AddActionToBePerformed, numberToEmoji, EmojiToNumber, UpdatePlayerAttribute, SetRandomPlayerAttributes, makeTransaction } = require('./functions.js')
+const { numberToEmoji,
+    EmojiToNumber,
+    SetLastAction,
+    UpdatePlayerAttribute,
+    checkPlayerInGroup,
+    checkPlayer,
+    getDirectories,
+    SetRandomPlayerAttributes,
+    AddActionToBePerformed,
+    makeTransaction,
+    GetPlayerGroup } = require('./functions.js')
 
 const fs = require('fs-extra')
 
