@@ -125,7 +125,9 @@ const processMessage = async (message) => {
 
 const Routine = async () => {
     const games = getDirectories('./Games')
-    games.forEach(groupId => {
+    for (let gameIndex = 0; gameIndex < games.length; gameIndex++) {
+        const groupId = games[gameIndex];
+
         let groupInfos = fs.readJSONSync('./Games/' + groupId + '/gameInfos.json')
         if (groupInfos.gameDateInfo.period == "day") {
             // SET TO NIGHT AND PERFORM NIGHTLY ACTIONS
@@ -144,15 +146,18 @@ const Routine = async () => {
             })
             groupInfos.upComingActions = upComingActions;
 
-            ActionsToPerform.forEach(_action => {
-                _action.action(Game, _action)
-            })
+            for (let iAction = 0; iAction < ActionsToPerform.length; iAction++) {
+                const _action = ActionsToPerform[iAction];
+                await _action.action(Game, _action)
+            }
         } else {
             // SET TO NEXT DAY AND PERFORM DAILY ACTIONS
             groupInfos.gameDateInfo = setGameDate(groupInfos.gameDateInfo, 1)
             console.log('Day ' + groupInfos.gameDateInfo.daysPassed + " has passed!")
         }
-    })
+
+        fs.writeJSONSync('./Games/' + msg.groupId + '/gameInfos.json', groupInfos)
+    }
 }
 
 
