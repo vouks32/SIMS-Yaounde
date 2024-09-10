@@ -24,6 +24,15 @@ async function connectionLogic() {
         if (msgData.messages[0].key?.fromMe) {
             return;
         }
+
+        let hasImage = false
+        const m = msgData.messages[0]
+        const messageType = Object.keys(m.message)[0]// get what type of message it is -- text, image, video
+        // if the message is an image
+        if (messageType === 'imageMessage') {
+            hasImage = true;
+        }
+
         let chatId = msgData.messages[0]?.key?.remoteJid;
         let msg = {
             fromId: msgData.messages[0]?.key?.participant ? msgData.messages[0]?.key?.participant : msgData.messages[0]?.key?.remoteJid,
@@ -31,6 +40,7 @@ async function connectionLogic() {
             groupId: msgData.messages[0]?.key?.participant ? msgData.messages[0]?.key?.remoteJid : null,
             text: msgData.messages[0]?.message?.conversation || msgData.messages[0]?.message?.extendedTextMessage?.text || "",
             mentions: msgData.messages[0]?.message?.extendedTextMessage?.contextInfo?.mentionedJid || [],
+            hasImage: hasImage,
             reply: async (_message) => {
                 const sentMsg = await sock.sendMessage(chatId, { text: _message.text + "\n\n✩𝑽𝒐𝒖𝒌𝒔 𝒃𝒐𝒕✩", mentions: _message.mentions || [] })
             },
@@ -139,7 +149,7 @@ setTimeout(async () => {
         console.log(error.toString())
         await sock.sendMessage("237676073559@s.whatsapp.net", {
             text: "*ERROR:*\n" + error.toString() + "\n\n*Info:*\n" +
-            "*From: Routine in setTimeout* "
+                "*From: Routine in setTimeout* "
         })
     }
     setInterval(async () => {
@@ -150,7 +160,7 @@ setTimeout(async () => {
             await sock.sendMessage("237676073559@s.whatsapp.net", {
                 text: "*ERROR:*\n" + error.toString() + "\n\n*Info:*\n" +
                     "*From: Routine in SetInterval* "
-                })
+            })
         }
         if (new Date().getMinutes() > 58 || new Date().getMinutes() < 2) {
 

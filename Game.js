@@ -96,7 +96,7 @@ const processMessage = async (message) => {
                         break;
                     }
 
-                if (message.subAction.condition(message)) {
+                if (await message.subAction.condition(message)) {
                     await message.subAction.action(message)
                     console.log(actionHierarchyArray)
 

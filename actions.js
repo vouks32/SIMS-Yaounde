@@ -96,13 +96,32 @@ let Actions = [
         },
         setLastAction: (playerId, action) => { SetLastAction(playerId, action) },
         conditionsToPerformAction: [],
-        condition: (msg) => msg.player.isDead,
+        condition: async (msg) => {
+            if (msg.player.isDead) {
+                let media = await msg.downloadImage('Players/' + msg.player.id + '/', 'profil.jpg')
+                let name = media?.caption?.split(',')[0];
+                let sex = media?.caption?.split(',')[1];
+                if (msg.hasImage && name && sex) {
+                    return true
+                } else {
+                    msg.reply({ text: "Je sais pas ce que tu viens d'envoyer... Mais c'est pas une image avec ton nom et ton sex écris dessous et séparé par une virgule!\nVérifie que tu as envoyé comme un des examples dans l'image et renvoie" })
+                    return false
+                }
+            } else {
+                msg.reply({ text: "Vous êtes déjà en pleine partie!" })
+                return false
+            }
+        },
         action: async (msg) => {
             let media = await msg.downloadImage('Players/' + msg.player.id + '/', 'profil.jpg')
-            let name = media.caption.split(',')[0];
-            let sex = media.caption.split(',')[1];
+            let name = media?.caption?.split(',')[0];
+            let sex = media?.caption?.split(',')[1];
+
+            if (!name || !sex) {
+                msg
+            }
             UpdatePlayerAttribute(msg.player.id, "name", name)
-            UpdatePlayerAttribute(msg.player.id, "sex", sex.startsWith('f') ? 'F' : 'M')
+            UpdatePlayerAttribute(msg.player.id, "sex", sex.toLowerCase().startsWith('f') ? 'F' : 'M')
             UpdatePlayerAttribute(msg.player.id, "isDead", false)
             SetRandomPlayerAttributes(msg.player.id)
             let player = SetLastAction(msg.player.id, 'action')
