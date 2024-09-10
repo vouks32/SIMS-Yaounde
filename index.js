@@ -75,12 +75,15 @@ async function connectionLogic() {
                     return false
                 }
             },
-            sock: sock
+            sock: null
         }
+
+        console.log('MESSAGE: ', msg)
+
+        msg.sock = sock;
 
         let group;
         if (msg.isFromGroup) {
-
             group = await msg.sock.groupMetadata(msg.groupId);
         }
 

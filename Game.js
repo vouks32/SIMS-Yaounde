@@ -8,9 +8,6 @@ const Game = require('./functions.js')
 
 const processMessage = async (message) => {
 
-    console.log('MESSAGE:', message)
-
-
     if (message.isFromGroup) {
         if (message.text.startsWith('!')) {
             let a = groupActions.find(_action => _action.id.startsWith(message.text.split(' ')[0]))

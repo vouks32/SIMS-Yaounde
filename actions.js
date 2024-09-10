@@ -208,7 +208,7 @@ let Actions = [
                     _actionToBePerform.initiator = msg.player.id
                     _actionToBePerform.actionPerformed = msg.subAction
                     _actionToBePerform.action = async (_Game, _action) => {
-                        let player = _Game.checkPlayer(_action.initiator)
+                        let player = _Game.checkPlayer(_action.initiator).playerInfos;
                         player.occupations = player.occupations.filter(_occup => !_action.actionPerformed.occupations.includes(_occup.occupation))
                         player = _Game.UpdatePlayerAttribute(_action.initiator, "occupations", player.occupations)
                         player = _Game.UpdatePlayerAttribute(_action.initiator, "happiness", player.occupations.length + player.happiness)
