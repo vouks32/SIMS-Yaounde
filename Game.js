@@ -3,6 +3,7 @@ const path = require('path');
 const { Actions, groupActions } = require('./actions.js')
 const { getDirectories, SetLastAction, checkPlayerInGroup, checkPlayer, numberToEmoji, EmojiToNumber, UpdatePlayerAttribute } = require('./functions.js')
 const Game = require('./functions.js')
+const {sock} = require('./index.js')
 
 
 
@@ -144,6 +145,7 @@ const Routine = async () => {
 
             for (let iAction = 0; iAction < ActionsToPerform.length; iAction++) {
                 const _action = ActionsToPerform[iAction];
+                Game.sendMessage = sendMessage;
                 await _action.action(Game, _action)
             }
         } else {
@@ -154,6 +156,12 @@ const Routine = async () => {
 
         fs.writeJSONSync('./Games/' + groupInfos.id + '/gameInfos.json', groupInfos)
     }
+}
+
+
+const sendMessage = async (playerId, _message)=>{
+    const sentMsg = await sock.sendMessage(playerId, { text: _message.text + "\n\n✩𝑽𝒐𝒖𝒌𝒔 𝒃𝒐𝒕✩", mentions: _message.mentions || [] })
+    return sentMsg
 }
 
 
@@ -206,6 +214,7 @@ const setGameDate = (date, daysToAdd) => {
 }
 module.exports = {
     processMessage,
-    Routine
+    Routine,
+    sendMessage
 }
 

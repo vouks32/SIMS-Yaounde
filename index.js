@@ -5,10 +5,12 @@ const { DisconnectReason, useMultiFileAuthState, downloadMediaMessage } = requir
 const { processMessage, Routine } = require('./Game');
 const { processCreditUnionMessage } = require('./CreditUnion/CreditUnion');
 
+let sock
+
 async function connectionLogic() {
 
     const { state, saveCreds } = await useMultiFileAuthState(path.join(process.cwd(), 'auth_info_baileys'))
-    const sock = makeWASocket({
+    sock = makeWASocket({
         // can provide additional config here
         auth: state,
         printQRInTerminal: true
@@ -176,3 +178,7 @@ const CreditUnionRoutine = () => {
 }
 
 connectionLogic()
+
+module.exports = { 
+    sock
+}

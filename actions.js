@@ -220,6 +220,8 @@ let Actions = [
                         })
                     }
 
+                    console.log("School will finish the " + _actionToBePerform.dateToBePerform)
+
                     AddActionToBePerformed(msg.player.id, _actionToBePerform)
                 }
             },
