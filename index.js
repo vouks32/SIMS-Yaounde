@@ -179,6 +179,12 @@ const CreditUnionRoutine = () => {
 
 connectionLogic()
 
+
+const sendMessage = async (playerId, _message)=>{
+    const sentMsg = await sock.sendMessage(playerId, { text: _message.text + "\n\n✩𝑽𝒐𝒖𝒌𝒔 𝒃𝒐𝒕✩", mentions: _message.mentions || [] })
+    return sentMsg
+}
+
 module.exports = { 
-    sock
+    sendMessage
 }
