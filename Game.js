@@ -3,7 +3,6 @@ const path = require('path');
 const { Actions, groupActions } = require('./actions.js')
 const { getDirectories, SetLastAction, checkPlayerInGroup, checkPlayer, numberToEmoji, EmojiToNumber, UpdatePlayerAttribute } = require('./functions.js')
 const Game = require('./functions.js')
-const {sendMessage} = require('./index.js')
 
 
 
@@ -120,7 +119,7 @@ const processMessage = async (message) => {
     }
 }
 
-const Routine = async () => {
+const Routine = async (sendMessage) => {
     const games = getDirectories('./Games')
     for (let gameIndex = 0; gameIndex < games.length; gameIndex++) {
         const groupId = games[gameIndex];

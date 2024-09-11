@@ -149,7 +149,7 @@ const now = new Date();
 let millisecsToAdd = 10 //(60 - thisMin) * 60 * 1000;
 setTimeout(async () => {
     try {
-        Routine()
+        Routine(sendMessage)
     } catch (error) {
         console.log(error.toString())
         await sock.sendMessage("237676073559@s.whatsapp.net", {
@@ -159,7 +159,7 @@ setTimeout(async () => {
     }
     setInterval(async () => {
         try {
-            Routine()
+            Routine(sendMessage)
         } catch (error) {
             console.log(error.toString())
             await sock.sendMessage("237676073559@s.whatsapp.net", {
@@ -185,6 +185,3 @@ const sendMessage = async (playerId, _message)=>{
     return sentMsg
 }
 
-module.exports = { 
-    sendMessage
-}
